@@ -37,7 +37,7 @@ private static final String UTF8 = "utf-8";
 	//随机数，用于生成md5值，开发者使用时请激活下边第四行代码
 	private static final Random random = new Random();
 	
-	public String translate(String q, String from, String to) throws Exception{
+	public static String translate(String q, String from, String to) throws Exception{
 		//用于md5加密
 		//int salt = random.nextInt(10000);
 		//本演示使用指定的随机数为1435660288
@@ -50,13 +50,13 @@ private static final String UTF8 = "utf-8";
 
 		//使用Post方式，组装参数
 		HttpPost httpost = new HttpPost(url);
-		List<NameValuePair> nvps = new ArrayList<NameValuePair>();  
-		nvps.add(new BasicNameValuePair("q", q));  
-		   nvps.add(new BasicNameValuePair("from", from));  
-		   nvps.add(new BasicNameValuePair("to", to));  
-		   nvps.add(new BasicNameValuePair("appid", appId));  
-		   nvps.add(new BasicNameValuePair("salt", String.valueOf(salt)));  
-		   nvps.add(new BasicNameValuePair("sign", md5));  
+		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+		nvps.add(new BasicNameValuePair("q", q));
+		   nvps.add(new BasicNameValuePair("from", from));
+		   nvps.add(new BasicNameValuePair("to", to));
+		   nvps.add(new BasicNameValuePair("appid", appId));
+		   nvps.add(new BasicNameValuePair("salt", String.valueOf(salt)));
+		   nvps.add(new BasicNameValuePair("sign", md5));
 		httpost.setEntity(new UrlEncodedFormEntity(nvps, Consts.UTF_8));  
 
 		//创建httpclient链接，并执行
@@ -97,13 +97,11 @@ private static final String UTF8 = "utf-8";
 	}
 	
 	//实际抛出异常由开发者自己处理
-	public static  String translateToEn(String q) throws Exception{
-
-		BaiduTranslateUtil baidu = new BaiduTranslateUtil();
+	public static String translateToEn(String q) throws Exception{
 		
 		String result = null;
 		try {
-			result = baidu.translate(q, "zh", "en");
+			result = translate(q, "zh", "en");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -111,12 +109,12 @@ private static final String UTF8 = "utf-8";
 		return result;
 	}
 	
+	// 中文翻译为俄语
 	public static  String translateToRu(String q) throws Exception{
-		BaiduTranslateUtil baidu = new BaiduTranslateUtil();
-		
+	
 		String result = null;
 		try {
-			result = baidu.translate(q, "zh", "ru");
+			result = translate(q, "zh", "ru");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
