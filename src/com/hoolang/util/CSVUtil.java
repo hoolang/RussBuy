@@ -38,7 +38,6 @@ public class CSVUtil {
 				"*Main Image URL", "Extra Image URL", "Extra Image URL 1", "Extra Image URL 2", "Extra Image URL 3",
 				"Extra Image URL 4" };
 		cw.writeRecord(headers);
-		BaiduTranslateUtil translate = new BaiduTranslateUtil();
 		
 		while (cr.readRecord()) {
 			String time = System.currentTimeMillis() + "";
@@ -90,23 +89,23 @@ public class CSVUtil {
 						i++;
 						String[] tmpStr = { cr.get("*Product Name"), // *Product
 																		// Name
-								"sku" + time + radomInt + i, // *Unique ID
-								"sku" + time + radomInt, // *Parent Unique ID
-								description, // *Description
-								tags, // *Tags
-								price + "", // *Price 自己卖的价格
-								MSRP, // MSRP 市场售价
-								cr.get(quantity), // *Quantity
-								cr.get("*Shipping"), // *Shipping
-								cr.get("*Category"), // *Category
-								color, // Color
-								size, // Size
-								cr.get("Weight"), // Weight
-								cr.get("Other Platform Product Url"), // 产品来源地址
-								cr.get("*Main Image URL"), // *Main Image URL 主图
-								cr.get("Extra Image URL"), // 配图一
-								cr.get("Extra Image URL 1"), cr.get("Extra Image URL 2"), cr.get("Extra Image URL 3"),
-								cr.get("Extra Image URL 4"), };
+						"sku" + time + radomInt + i, // *Unique ID
+						"sku" + time + radomInt, // *Parent Unique ID
+						description, // *Description
+						tags, // *Tags
+						price + "", // *Price 自己卖的价格
+						MSRP, // MSRP 市场售价
+						cr.get(quantity), // *Quantity
+						cr.get("*Shipping"), // *Shipping
+						cr.get("*Category"), // *Category
+						color, // Color
+						size, // Size
+						cr.get("Weight"), // Weight
+						cr.get("Other Platform Product Url"), // 产品来源地址
+						cr.get("*Main Image URL"), // *Main Image URL 主图
+						cr.get("Extra Image URL"), // 配图一
+						cr.get("Extra Image URL 1"), cr.get("Extra Image URL 2"), cr.get("Extra Image URL 3"),
+						cr.get("Extra Image URL 4"), };
 
 						cw.writeRecord(tmpStr);
 					}
@@ -117,23 +116,23 @@ public class CSVUtil {
 					i++;
 					String[] tmpStr = { cr.get("*Product Name"), // *Product
 																	// Name
-							"sku" + time + radomInt + i, // *Unique ID
-							"sku" + time + radomInt, // *Parent Unique ID
-							description, // *Description
-							tags, // *Tags
-							price + "", // *Price 自己卖的价格
-							MSRP, // MSRP 市场售价
-							cr.get(quantity), // *Quantity
-							cr.get("*Shipping"), // *Shipping
-							cr.get("*Category"), // *Category
-							"", // Color
-							size, // Size
-							cr.get("Weight"), // Weight
-							cr.get("Other Platform Product Url"), // 产品来源地址
-							cr.get("*Main Image URL"), // *Main Image URL 主图
-							cr.get("Extra Image URL"), // 配图一
-							cr.get("Extra Image URL 1"), cr.get("Extra Image URL 2"), cr.get("Extra Image URL 3"),
-							cr.get("Extra Image URL 4"), };
+					"sku" + time + radomInt + i, // *Unique ID
+					"sku" + time + radomInt, // *Parent Unique ID
+					description, // *Description
+					tags, // *Tags
+					price + "", // *Price 自己卖的价格
+					MSRP, // MSRP 市场售价
+					cr.get(quantity), // *Quantity
+					cr.get("*Shipping"), // *Shipping
+					cr.get("*Category"), // *Category
+					"", // Color
+					size, // Size
+					cr.get("Weight"), // Weight
+					cr.get("Other Platform Product Url"), // 产品来源地址
+					cr.get("*Main Image URL"), // *Main Image URL 主图
+					cr.get("Extra Image URL"), // 配图一
+					cr.get("Extra Image URL 1"), cr.get("Extra Image URL 2"), cr.get("Extra Image URL 3"),
+					cr.get("Extra Image URL 4"), };
 
 					cw.writeRecord(tmpStr);
 				}
@@ -143,23 +142,23 @@ public class CSVUtil {
 					i++;
 					String[] tmpStr = { cr.get("*Product Name"), // *Product
 																	// Name
-							"sku" + time + radomInt + i, // *Unique ID
-							"sku" + time + radomInt, // *Parent Unique ID
-							description, // *Description
-							tags, // *Tags
-							price + "", // *Price 自己卖的价格
-							MSRP, // MSRP 市场售价
-							cr.get(quantity), // *Quantity
-							cr.get("*Shipping"), // *Shipping
-							cr.get("*Category"), // *Category
-							color, // Color
-							"", // Size
-							cr.get("Weight"), // Weight
-							cr.get("Other Platform Product Url"), // 产品来源地址
-							cr.get("*Main Image URL"), // *Main Image URL 主图
-							cr.get("Extra Image URL"), // 配图一
-							cr.get("Extra Image URL 1"), cr.get("Extra Image URL 2"), cr.get("Extra Image URL 3"),
-							cr.get("Extra Image URL 4"), };
+					"sku" + time + radomInt + i, // *Unique ID
+					"sku" + time + radomInt, // *Parent Unique ID
+					description, // *Description
+					tags, // *Tags
+					price + "", // *Price 自己卖的价格
+					MSRP, // MSRP 市场售价
+					cr.get(quantity), // *Quantity
+					cr.get("*Shipping"), // *Shipping
+					cr.get("*Category"), // *Category
+					color, // Color
+					"", // Size
+					cr.get("Weight"), // Weight
+					cr.get("Other Platform Product Url"), // 产品来源地址
+					cr.get("*Main Image URL"), // *Main Image URL 主图
+					cr.get("Extra Image URL"), // 配图一
+					cr.get("Extra Image URL 1"), cr.get("Extra Image URL 2"), cr.get("Extra Image URL 3"),
+					cr.get("Extra Image URL 4"), };
 
 					cw.writeRecord(tmpStr);
 				}
