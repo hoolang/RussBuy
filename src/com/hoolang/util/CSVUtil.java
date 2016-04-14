@@ -248,10 +248,6 @@ public class CSVUtil {
 				
 				//标题
 				String name = cr.get("*Product Name");
-				name = name.replace("(", "");
-				name = name.replace(")", "");
-				name = name.replace("[", "");
-				name = name.replace("]", "");
 				name = BaiduTranslateUtil.translateToRu(name);
 				
 				// 分解关键词

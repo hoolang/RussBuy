@@ -51,19 +51,21 @@ private static final String UTF8 = "utf-8";
 		HttpPost httpost = new HttpPost(url);
 //		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 //		nvps.add(new BasicNameValuePair("q", q));
-//		   nvps.add(new BasicNameValuePair("from", from));
-//		   nvps.add(new BasicNameValuePair("to", to));
-//		   nvps.add(new BasicNameValuePair("appid", appId));
-//		   nvps.add(new BasicNameValuePair("salt", String.valueOf(salt)));
-//		   nvps.add(new BasicNameValuePair("sign", md5));
-		 
-		
-		//httpost.setEntity(new UrlEncodedFormEntity(nvps, Consts.UTF_8));  
+//	    nvps.add(new BasicNameValuePair("from", from));
+//	    nvps.add(new BasicNameValuePair("to", to));
+//	    nvps.add(new BasicNameValuePair("appid", appId));
+//	    nvps.add(new BasicNameValuePair("salt", String.valueOf(salt)));
+//	    nvps.add(new BasicNameValuePair("sign", md5));
+//		 
+//		
+//		httpost.setEntity(new UrlEncodedFormEntity(nvps, Consts.UTF_8));  
 
 		// 构造最简单的字符串数据
-		String params = "q="+q+"&from="+ from +"&to=" + to + "&appid=" + appId + "&salt=" + String.valueOf(salt) + "&sign=" + md5;
+		q = java.net.URLEncoder.encode(q, "utf-8"); 
+		String params = "q=" + q + "&from="+ from +"&to=" + to + "&appid=" + appId + "&salt=" + String.valueOf(salt) + "&sign=" + md5;
 		System.out.println(params);
 		StringEntity reqEntity = new StringEntity(params);
+		reqEntity.setContentEncoding("UTF_8");
 		// 设置类型
 	    reqEntity.setContentType("application/x-www-form-urlencoded");
 		httpost.setEntity(reqEntity);  
