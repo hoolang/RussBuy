@@ -46,7 +46,7 @@ public class ProductAction extends ActionSupport {
 		if(file == null){
 			return ERROR;
 		}
-		CSVUtil.MoBuyOpretion(file, exportDir);
+		CSVUtil.PPKOOtoMobuy(file, exportDir);
 		return SUCCESS;
 	}
 	
