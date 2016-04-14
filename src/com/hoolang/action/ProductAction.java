@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.hoolang.entity.Products;
 import com.hoolang.service.ProductsService;
+import com.hoolang.util.CSVUtil;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class ProductAction extends ActionSupport {
@@ -37,8 +38,9 @@ public class ProductAction extends ActionSupport {
 	private Products product;
 	private ProductsService productsService;
 
-	public String importCSV(){
+	public String importCSV() throws Exception{
 		Date date = new Date();
+		CSVUtil.MoBuyOpretion("/Users/circle_mobile/Downloads/31su2mfa.csv", "/Users/circle_mobile/Downloads/1111.csv");
 		return SUCCESS;
 	}
 	

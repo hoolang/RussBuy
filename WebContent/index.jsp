@@ -18,6 +18,11 @@
 	private Date u_register;
 	private Date u_update;
  -->
+ <form method="post" action="csv/importCSV.action">
+<input type="submit" name="导入CSV"><br/>
+</form>
+<hr>
+ 
 <form method="post" action="addUser.action"  enctype="multipart/form-data">
 用户名：<input type="text" name="user.name"><br/>
 用户图标<input name="file" type="file" /><br/>

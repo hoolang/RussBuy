@@ -121,4 +121,43 @@ private static final String UTF8 = "utf-8";
 		
 		return result;
 	}
+	
+	// 俄文翻译为中文
+	public static  String translateRuToZh(String q) throws Exception{
+	
+		String result = null;
+		try {
+			result = translate(q, "ru", "zh");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	// 英文翻译为中文
+	public static  String translateEnToZh(String q) throws Exception{
+	
+		String result = null;
+		try {
+			result = translate(q, "en", "zh");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	// 英文翻译为俄文
+	public static  String translateEnToRu(String q) throws Exception{
+	
+		String result = null;
+		try {
+			result = translate(q, "en", "ru");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 }

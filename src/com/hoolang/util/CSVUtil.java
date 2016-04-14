@@ -18,7 +18,7 @@ import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
 
 public class CSVUtil {
-	// AliExpress
+	// AliExpress 源文件是俄语
 	public static void MoBuyOpretion(String inputPath, String outPath) throws Exception {
 
 		File inFile = new File(inputPath);
@@ -38,31 +38,40 @@ public class CSVUtil {
 				"*Main Image URL", "Extra Image URL", "Extra Image URL 1", "Extra Image URL 2", "Extra Image URL 3",
 				"Extra Image URL 4" };
 		cw.writeRecord(headers);
-		
+		System.out.println("run here+++++++++++++++++++++++");
 		while (cr.readRecord()) {
 			String time = System.currentTimeMillis() + "";
 			int radomInt = new Random().nextInt(9);
 			int i = 0;
-			float price = Float.valueOf(cr.get("*Price"));// floatV
+			System.out.println("Price+++++++++++++++++++++++" + cr.get("*Price"));
+			float price = 0;
+			if(cr.get("*Price").length() !=0){
+				price = Float.valueOf(cr.get("*Price"));// floatV
+			}else price = 10;
+			 
 															// cr.get("*Price");
 			DecimalFormat decimalFormat = new DecimalFormat(".00");// 构造方法的字符格式这里如果小数不足2位,会以0补足.
 			String MSRP = decimalFormat.format(price * 3);// format 返回的是字符串
 			
 			// 分解关键词
-			List<Word> words = WordSegmenter.seg(cr.get("*Tags"));
+//			List<Word> words = WordSegmenter.seg(cr.get("*Tags"));
+			List<Word> words = WordSegmenter.segWithStopWords(cr.get("*Tags"));
 			String tags = words.toString().replace("[", "");
-			tags = words.toString().replace("]", "");
+			tags = tags.toString().replace("]", "");
 			// 翻译成俄语
 			tags = BaiduTranslateUtil.translateToRu(tags);
 			
 			String description = BaiduTranslateUtil.translateToRu(cr.get("*Description"));
 			
+			System.out.println(tags);
+			System.out.println(description);
+			
 			String[] colors = cr.get("Color").split(",");
 			String[] sizes = cr.get("Size").split(",");
 			
 			if(colors.length == 0 && sizes.length == 0){//没有颜色也没有尺码
-				String[] tmpStr = { cr.get("*Product Name"), // *Product
-						// Name
+				String[] tmpStr = { 
+						cr.get("*Product Name"), // *Product// Name
 						"sku" + time + radomInt + i, // *Unique ID
 						"sku" + time + radomInt, // *Parent Unique ID
 						description, // *Description
@@ -80,9 +89,9 @@ public class CSVUtil {
 						cr.get("Extra Image URL"), // 配图一
 						cr.get("Extra Image URL 1"), cr.get("Extra Image URL 2"), cr.get("Extra Image URL 3"),
 						cr.get("Extra Image URL 4"), };
-
 				cw.writeRecord(tmpStr);
 			}else if(colors.length != 0 && sizes.length != 0){//有颜色，也有尺码
+				System.out.println("有颜色，也有尺码");
 				for (String color : colors) {
 					for (String size : sizes) {
 						String quantity = new Random().nextInt(99) + "";

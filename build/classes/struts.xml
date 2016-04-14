@@ -42,6 +42,15 @@
 	</action>
 		<!-- End Comments -->
 	</package>
+	<!-- CSV操作 -->
+	<package name="CSV" namespace="/csv" extends="struts-default">
+		<action name="importCSV" class="com.hoolang.action.ProductAction"
+			method="importCSV">
+			<result name="success" type="redirect">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+	</package>
+	<!-- CSV操作 END-->
 	
 	<package name="ajax" extends="json-default" namespace="/nsjson">
 	<action name="addPost" class="com.hoolang.action.PostAction"
