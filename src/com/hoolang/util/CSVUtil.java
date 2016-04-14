@@ -246,9 +246,17 @@ public class CSVUtil {
 				DecimalFormat decimalFormat = new DecimalFormat(".00");// 构造方法的字符格式这里如果小数不足2位,会以0补足.
 				String MSRP = decimalFormat.format(price * 3);// format 返回的是字符串
 				
+				//标题
+				String name = cr.get("*Product Name");
+				name = name.replace("(", "");
+				name = name.replace(")", "");
+				name = name.replace("[", "");
+				name = name.replace("]", "");
+				name = BaiduTranslateUtil.translateToRu(name);
+				
 				// 分解关键词
 //				List<Word> words = WordSegmenter.seg(cr.get("*Tags"));
-				List<Word> words = WordSegmenter.segWithStopWords(cr.get("*Tags"));
+				List<Word> words = WordSegmenter.segWithStopWords(cr.get("*Product Name"));
 				String tags = words.toString().replace("[", "");
 				tags = tags.toString().replace("]", "");
 				// 翻译成俄语
@@ -267,7 +275,7 @@ public class CSVUtil {
 					String quantity = new Random().nextInt(99) + "";
 					i++;
 					List<String> list = new ArrayList<String>();
-					list.add(cr.get("*Product Name"));//*Product name
+					list.add(name);//*Product name
 					list.add("sku" + time + radomInt + i);// *Unique ID
 					list.add("sku" + time + radomInt); // *Parent Unique ID
 					list.add(description);// *Description
@@ -300,7 +308,7 @@ public class CSVUtil {
 							String quantity = new Random().nextInt(99) + "";
 							i++;
 							List<String> list = new ArrayList<String>();
-							list.add(cr.get("*Product Name"));//*Product name
+							list.add(name);//*Product name
 							list.add("sku" + time + radomInt + i);// *Unique ID
 							list.add("sku" + time + radomInt); // *Parent Unique ID
 							list.add(description);// *Description
@@ -333,7 +341,7 @@ public class CSVUtil {
 						String quantity = new Random().nextInt(99) + "";
 						i++;
 						List<String> list = new ArrayList<String>();
-						list.add(cr.get("*Product Name"));//*Product name
+						list.add(name);//*Product name
 						list.add("sku" + time + radomInt + i);// *Unique ID
 						list.add("sku" + time + radomInt); // *Parent Unique ID
 						list.add(description);// *Description
@@ -365,7 +373,7 @@ public class CSVUtil {
 						String quantity = new Random().nextInt(99) + "";
 						i++;
 						List<String> list = new ArrayList<String>();
-						list.add(cr.get("*Product Name"));//*Product name
+						list.add(name);//*Product name
 						list.add("sku" + time + radomInt + i);// *Unique ID
 						list.add("sku" + time + radomInt); // *Parent Unique ID
 						list.add(description);// *Description

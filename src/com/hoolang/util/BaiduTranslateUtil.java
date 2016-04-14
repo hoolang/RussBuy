@@ -15,13 +15,12 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 public class BaiduTranslateUtil {
 private static final String UTF8 = "utf-8";
@@ -50,15 +49,24 @@ private static final String UTF8 = "utf-8";
 
 		//使用Post方式，组装参数
 		HttpPost httpost = new HttpPost(url);
-		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-		nvps.add(new BasicNameValuePair("q", q));
-		   nvps.add(new BasicNameValuePair("from", from));
-		   nvps.add(new BasicNameValuePair("to", to));
-		   nvps.add(new BasicNameValuePair("appid", appId));
-		   nvps.add(new BasicNameValuePair("salt", String.valueOf(salt)));
-		   nvps.add(new BasicNameValuePair("sign", md5));
-		httpost.setEntity(new UrlEncodedFormEntity(nvps, Consts.UTF_8));  
+//		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+//		nvps.add(new BasicNameValuePair("q", q));
+//		   nvps.add(new BasicNameValuePair("from", from));
+//		   nvps.add(new BasicNameValuePair("to", to));
+//		   nvps.add(new BasicNameValuePair("appid", appId));
+//		   nvps.add(new BasicNameValuePair("salt", String.valueOf(salt)));
+//		   nvps.add(new BasicNameValuePair("sign", md5));
+		 
+		
+		//httpost.setEntity(new UrlEncodedFormEntity(nvps, Consts.UTF_8));  
 
+		// 构造最简单的字符串数据
+		String params = "q="+q+"&from="+ from +"&to=" + to + "&appid=" + appId + "&salt=" + String.valueOf(salt) + "&sign=" + md5;
+		System.out.println(params);
+		StringEntity reqEntity = new StringEntity(params);
+		// 设置类型
+	    reqEntity.setContentType("application/x-www-form-urlencoded");
+		httpost.setEntity(reqEntity);  
 		//创建httpclient链接，并执行
 	    CloseableHttpClient httpclient = HttpClients.createDefault();
 	    CloseableHttpResponse response = httpclient.execute(httpost);
