@@ -48,6 +48,12 @@
 			method="importCSV">
 			<result name="success" type="redirect">/success.jsp</result>
 			<result name="error">/error.jsp</result>
+			<interceptor-ref name="defaultStack">     
+                <param name="fileUpload.maximumSize">5024000</param>     
+                <param name="fileUpload.allowedTypes">     
+                     text/csv,
+                </param>
+            </interceptor-ref> 
 		</action>
 	</package>
 	<!-- CSV操作 END-->

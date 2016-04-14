@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.struts2.ServletActionContext;
 import org.apdplat.word.WordSegmenter;
 import org.apdplat.word.segmentation.Word;
 
@@ -19,12 +20,20 @@ import com.csvreader.CsvWriter;
 
 public class CSVUtil {
 	// AliExpress 源文件是俄语
-	public static void MoBuyOpretion(String inputPath, String outPath) throws Exception {
-
-		File inFile = new File(inputPath);
-		File outFile = new File(outPath);
-
-		FileInputStream inputStr = new FileInputStream(inFile);
+	public static void MoBuyOpretion(File inputFile, String outPath) throws Exception {
+		// 获取真正的文件目录
+		String path = ServletActionContext.getServletContext().getRealPath(outPath);
+		File dir = new File(path);
+		// 如果文件目录不存在则创建
+		if(!dir.exists()){
+			dir.mkdir();
+		}
+		// 保存的文件名字。用时间戳命名
+		String fileName = System.currentTimeMillis()+".csv";
+		// 创建导出文件
+		File outFile = new File(dir, fileName);
+		
+		FileInputStream inputStr = new FileInputStream(inputFile);
 		FileOutputStream outputStr = new FileOutputStream(outFile);
 		// 火车头采集回来的是GBK格式
 		CsvReader cr = new CsvReader(inputStr, Charset.forName("GBK"));

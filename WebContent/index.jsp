@@ -18,7 +18,8 @@
 	private Date u_register;
 	private Date u_update;
  -->
- <form method="post" action="csv/importCSV.action">
+ <form method="post" action="csv/importCSV.action" enctype="multipart/form-data">
+ <input name="file" type="file" />
 <input type="submit" name="导入CSV"><br/>
 </form>
 <hr>

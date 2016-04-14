@@ -3,6 +3,8 @@ package com.hoolang.action;
 import java.io.File;
 import java.util.Date;
 
+import org.apache.struts2.ServletActionContext;
+
 import com.hoolang.entity.Products;
 import com.hoolang.service.ProductsService;
 import com.hoolang.util.CSVUtil;
@@ -33,14 +35,18 @@ public class ProductAction extends ActionSupport {
 	private String main_image_url;
 	private String extra_image_urls;
 	
+    //文件导出目录  
+    private String exportDir = "/export";
 	// 接收到的文件
 	private File file;
 	private Products product;
 	private ProductsService productsService;
 
 	public String importCSV() throws Exception{
-		Date date = new Date();
-		CSVUtil.MoBuyOpretion("/Users/circle_mobile/Downloads/31su2mfa.csv", "/Users/circle_mobile/Downloads/1111.csv");
+		if(file == null){
+			return ERROR;
+		}
+		CSVUtil.MoBuyOpretion(file, exportDir);
 		return SUCCESS;
 	}
 	

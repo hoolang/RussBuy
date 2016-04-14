@@ -80,7 +80,7 @@ public class UserAction extends ActionSupport{
         File dir = new File(path);
         // 如果这个目录不存在，则创建它。
         if (!dir.exists()) 
-            dir.mkdir();  
+            dir.mkdir();
         int index = fileFileName.lastIndexOf('.'); 
         // 判断上传文件名是否有扩展名
         if (index != -1)
