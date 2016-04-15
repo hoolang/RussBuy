@@ -359,8 +359,8 @@ public class CSVUtil {
 						list.add(image);
 					}
 					
-					Object[] objects = list.toArray();//返回Object数组    
-				    System.out.println("objects:"+Arrays.toString(objects));    
+//					Object[] objects = list.toArray();//返回Object数组    
+//				    System.out.println("objects:"+Arrays.toString(objects));    
 				          
 				    String[] arr = new String[list.size()];    
 				    list.toArray(arr);//将转化后的数组放入已经创建好的对象中    
