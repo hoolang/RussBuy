@@ -16,7 +16,6 @@ public class PPKOOSpider implements PageProcessor {
 
 	@Override
 	public void process(Page page) {
-
 		page.putField("title", page.getHtml().xpath("h1/text()"));
 		page.putField("price", page.getHtml().xpath("span[@id='js-price']//text()"));
 		// <div class="cons_main_rt_c"><div class="cons_m"><ul class="info">
@@ -34,6 +33,10 @@ public class PPKOOSpider implements PageProcessor {
 		return site;
 	}
 
+	public void spider(String[] urls){
+		Spider.create(new PPKOOSpider()).addUrl(urls).run();
+	}
+	
 	public static void main(String[] args) {
 		List<String> list = new ArrayList<String>();
 		list.add("http://www.ppkoo.com/product/5429299.html");
