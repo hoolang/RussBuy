@@ -2,6 +2,7 @@ package com.hoolang.util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -10,6 +11,7 @@ import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -19,10 +21,79 @@ import org.apdplat.word.segmentation.Word;
 
 import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
+import com.hoolang.entity.Products;
 
 public class CSVUtil {
-	
-	
+	// 导入到服务器
+	public static List<Products> importToService(File inputFile){
+		List<Products> list = new ArrayList<Products>();
+		try {
+			FileInputStream inputStr = new FileInputStream(inputFile);
+			// 火车头采集回来的是GBK格式
+			CsvReader cr = new CsvReader(inputStr, Charset.forName("GBK"));
+			try {
+				cr.readHeaders();
+				int i = 0;
+				String quantity = new Random().nextInt(99) + "";
+				while (cr.readRecord()) {
+					i++;
+					Products product = new Products();
+					
+					String time = System.currentTimeMillis() + "";
+					int radomInt = new Random().nextInt(9);
+					System.out.println("Price+++++++++++++++++++++++" + cr.get("*Price"));
+					float price = 0;
+					String priceTmp = cr.get("*Price");
+					System.out.println("Price++++++== " + priceTmp);
+					if(priceTmp!=null && priceTmp.length() !=0){
+						System.out.println("Price++++++==sssss ");
+						price = Float.valueOf(priceTmp);
+					}else{
+						price = 0;
+						System.out.println("Price++++++== null");
+					}
+					
+//					DecimalFormat decimalFormat = new DecimalFormat(".00");// 构造方法的字符格式这里如果小数不足2位,会以0补足.
+//					 MSRP = decimalFormat.format(price * 3);// format 返回的是字符串
+					float MSRP = price * 3;
+					
+					Date date = new Date();
+					product.setProduct_name(cr.get("*Product Name"));
+					product.setUnique_id("sku" + time + radomInt + i);
+					product.setParent_id("sku" + time + radomInt);
+					product.setDescription(cr.get("*Description"));
+					product.setTags(cr.get("*Tags"));
+					product.setPrice(price);
+					product.setPrice_usd(price * 6);
+					product.setMsrp((MSRP));
+					product.setQuantity(quantity);
+					product.setShipping(cr.get("*Shipping"));
+					product.setCategory(cr.get("*Category"));
+					product.setColor(cr.get("Color"));
+					product.setSize(cr.get("Size"));
+					product.setWeight(cr.get("Weight"));
+					product.setOther_platform_product_url(cr.get("Other Platform Product Url"));
+					product.setMain_image_url(cr.get("*Main Image URL"));
+					product.setExtra_image_urls(cr.get("images"));
+					product.setLangType(cr.get("langType"));
+					product.setStatus('0');
+					product.setCreate_date(date);
+					product.setUpdate_date(date);
+					
+					list.add(product);
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return list;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return list;
+		}
+		
+	}
 	
 	// AliExpress 源文件是俄语
 	public static void MoBuyOpretion(File inputFile, String outPath) throws Exception {
@@ -245,10 +316,8 @@ public class CSVUtil {
 																// cr.get("*Price");
 				DecimalFormat decimalFormat = new DecimalFormat(".00");// 构造方法的字符格式这里如果小数不足2位,会以0补足.
 				String MSRP = decimalFormat.format(price * 3);// format 返回的是字符串
-				
-				//标题
-				String name = cr.get("*Product Name");
-				name = BaiduTranslateUtil.translateToRu(name);
+				//标题、
+				String name = BaiduTranslateUtil.translateToRu(cr.get("*Product Name"));
 				
 				// 分解关键词
 //				List<Word> words = WordSegmenter.seg(cr.get("*Tags"));

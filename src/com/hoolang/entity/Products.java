@@ -3,10 +3,14 @@ package com.hoolang.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.Table;
+@Entity
+@Table(name = "HL_PRODUCTS")
 public class Products implements Serializable{
 
 	/**
@@ -38,23 +42,58 @@ public class Products implements Serializable{
 	private long uid;
 	private String product_name;
 	private String unique_id;
+	private String parent_id;
 	private String description;
 	private String tags;
 	private float price;			//人民币
 	private float price_usd;		//美金
 	private float msrp;
 	private String quantity;
-	private String shipping;
-	private String category;
+	private String shipping;		//运费
+	private String category;		//分类
 	private String color;
 	private String size;
-	private float weight;
+	private String weight;
 	private String other_platform_product_url;
-	private String main_image_url;
-	private String extra_image_urls;
+	private String main_image_url;	//主图
+	private String extra_image_urls;//附加图
+	private String langType;			//语言种类
+	private char status;			//状态
 	private Date create_date;
 	private Date update_date;
 	
+	public Products(){};
+	
+	public Products(long uid, String product_name, String unique_id, String parent_id, String description, String tags,
+			float price, float price_usd, float msrp, String quantity, String shipping, String category, String color,
+			String size, String weight, String other_platform_product_url, String main_image_url,
+			String extra_image_urls, String langType, char status, Date create_date, Date update_date) {
+		super();
+		this.uid = uid;
+		this.product_name = product_name;
+		this.unique_id = unique_id;
+		this.parent_id = parent_id;
+		this.description = description;
+		this.tags = tags;
+		this.price = price;
+		this.price_usd = price_usd;
+		this.msrp = msrp;
+		this.quantity = quantity;
+		this.shipping = shipping;
+		this.category = category;
+		this.color = color;
+		this.size = size;
+		this.weight = weight;
+		this.other_platform_product_url = other_platform_product_url;
+		this.main_image_url = main_image_url;
+		this.extra_image_urls = extra_image_urls;
+		this.langType = langType;
+		this.status = status;
+		this.create_date = create_date;
+		this.update_date = update_date;
+	}
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public long getUid() {
@@ -72,9 +111,18 @@ public class Products implements Serializable{
 	public String getUnique_id() {
 		return unique_id;
 	}
+	public String getParent_id() {
+		return parent_id;
+	}
+
+	public void setParent_id(String parent_id) {
+		this.parent_id = parent_id;
+	}
+
 	public void setUnique_id(String unique_id) {
 		this.unique_id = unique_id;
 	}
+	@Column(length=10000)
 	public String getDescription() {
 		return description;
 	}
@@ -135,10 +183,10 @@ public class Products implements Serializable{
 	public void setSize(String size) {
 		this.size = size;
 	}
-	public float getWeight() {
+	public String getWeight() {
 		return weight;
 	}
-	public void setWeight(float weight) {
+	public void setWeight(String weight) {
 		this.weight = weight;
 	}
 	public String getOther_platform_product_url() {
@@ -171,4 +219,17 @@ public class Products implements Serializable{
 	public void setUpdate_date(Date update_date) {
 		this.update_date = update_date;
 	}
+	public String getLangType() {
+		return langType;
+	}
+	public void setLangType(String langType) {
+		this.langType = langType;
+	}
+	public char getStatus() {
+		return status;
+	}
+	public void setStatus(char status) {
+		this.status = status;
+	}
+	
 }

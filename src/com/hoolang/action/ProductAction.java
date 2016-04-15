@@ -1,9 +1,7 @@
 package com.hoolang.action;
 
 import java.io.File;
-import java.util.Date;
-
-import org.apache.struts2.ServletActionContext;
+import java.util.List;
 
 import com.hoolang.entity.Products;
 import com.hoolang.service.ProductsService;
@@ -42,11 +40,18 @@ public class ProductAction extends ActionSupport {
 	private Products product;
 	private ProductsService productsService;
 
+	public String save(){
+		productsService.save(product);
+		return SUCCESS;
+	}
 	public String importCSV() throws Exception{
 		if(file == null){
 			return ERROR;
 		}
-		CSVUtil.PPKOOtoMobuy(file, exportDir);
+		List<Products> list = CSVUtil.importToService(file);
+		for(Products product : list){
+			productsService.save(product);
+		}
 		return SUCCESS;
 	}
 	

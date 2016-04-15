@@ -45,6 +45,11 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 		System.out.println(entity);
 		return getSessionFactory().getCurrentSession().save(entity);
 	}
+	// 批量保存实体
+	public Serializable saveEntities(T entity) {
+		System.out.println(entity);
+		return getSessionFactory().getCurrentSession().save(entity);
+	}
 
 	// 更新实体
 	public void update(T entity) {
@@ -206,6 +211,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 		Query query = getSessionFactory().getCurrentSession().createSQLQuery(SQL);
 		return (List<T>) query.list();
 	}
+	
 	
 	
 }
