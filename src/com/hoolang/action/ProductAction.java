@@ -1,11 +1,13 @@
 package com.hoolang.action;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.hoolang.entity.Products;
 import com.hoolang.service.ProductsService;
 import com.hoolang.util.CSVUtil;
+import com.hoolang.util.spider.PPKOOSpider;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class ProductAction extends ActionSupport {
@@ -37,6 +39,8 @@ public class ProductAction extends ActionSupport {
     private String exportDir = "/export";
 	// 接收到的文件
 	private File file;
+	// 需要采集的urls
+	private String urls;
 	private Products product;
 	private ProductsService productsService;
 
@@ -54,6 +58,28 @@ public class ProductAction extends ActionSupport {
 			productsService.save(product);
 		}
 		return SUCCESS;
+	}
+	
+	public String spider(){
+//		List<String> list = new ArrayList<String>();
+//		list.add("http://www.ppkoo.com/product/5429299.html");
+//		list.add("http://www.ppkoo.com/product/5171257.html");
+//		String[] strArr = new String[list.size()];
+//		list.toArray(strArr);
+		
+		if(urls == null || urls.length() == 0 ){
+			System.out.println("urls == null");
+			return ERROR;
+		}else{
+			String[] URLs = urls.split("\r\n");
+			if(URLs.length == 0){
+				System.out.println("URLs.length == 0");
+				return ERROR;
+			}else{
+				PPKOOSpider.create().spider(productsService, URLs);
+				return SUCCESS;
+			}
+		}
 	}
 	
 	public long getUid() {
@@ -183,4 +209,11 @@ public class ProductAction extends ActionSupport {
 	public void setProductsService(ProductsService productsService) {
 		this.productsService = productsService;
 	}
+	public String getUrls() {
+		return urls;
+	}
+	public void setUrls(String urls) {
+		this.urls = urls;
+	}
+	
 }

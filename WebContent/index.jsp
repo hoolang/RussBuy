@@ -20,9 +20,16 @@
  -->
  <form method="post" action="csv/importCSV.action" enctype="multipart/form-data">
  <input name="file" type="file" />
-<input type="submit" name="导入CSV"><br/>
+<input type="submit" name="导入CSV" value="导入CSV"><br/>
 </form>
 <hr>
+
+ <form method="post" action="csv/spider.action">
+ <textarea rows="10" cols="80" name="urls"></textarea>
+<input type="submit" name="爬虫" value="采集"><br/>
+</form>
+<hr>
+
  
 <form method="post" action="addUser.action"  enctype="multipart/form-data">
 用户名：<input type="text" name="user.name"><br/>

@@ -2,18 +2,20 @@ package com.hoolang.util.spider;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
 
+import com.hoolang.service.ProductsService;
+import com.hoolang.spider.pipeline.SimplePipeline;
+
 public class PPKOOSpider implements PageProcessor {
 
 	private Site site = Site.me().setDomain("www.ppkoo.com").setSleepTime(3000).setUserAgent(
 			"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_2) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31");
-
+	private ProductsService productService;
 	@Override
 	public void process(Page page) {
 		page.putField("title", page.getHtml().xpath("h1/text()"));
@@ -32,18 +34,33 @@ public class PPKOOSpider implements PageProcessor {
 		site.setCharset("UTF-8");
 		return site;
 	}
+	public PPKOOSpider() {};
 
-	public void spider(String[] urls){
-		Spider.create(new PPKOOSpider()).addUrl(urls).run();
+    public static PPKOOSpider create() {
+        return new PPKOOSpider();
+    }
+    
+	public PPKOOSpider spider(ProductsService productService,String[] urls){
+		Spider.create(new PPKOOSpider()).addPipeline(new SimplePipeline(productService)).addUrl(urls).run();
+		return this;
 	}
 	
 	public static void main(String[] args) {
 		List<String> list = new ArrayList<String>();
-		list.add("http://www.ppkoo.com/product/5429299.html");
+		list.add("http://www.ppkoo.com/product/5429299.htmls");
 		list.add("http://www.ppkoo.com/product/5171257.html");
 		String[] strArr = new String[list.size()];
 		list.toArray(strArr);
-		Spider.create(new PPKOOSpider()).addUrl(strArr).run();
-		//Spider.create(new PPKOOSpider()).addRequest(arg0)
+		Spider.create(new PPKOOSpider()).addUrl(strArr).addPipeline(new SimplePipeline()).run();
+		//Spider.create(new PPKOOSpider()).addRequest(arg0)+
+	}
+
+
+	public ProductsService getProductService() {
+		return productService;
+	}
+
+	public void setProductService(ProductsService productService) {
+		this.productService = productService;
 	}
 }

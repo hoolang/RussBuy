@@ -55,6 +55,11 @@
                 </param>
             </interceptor-ref> 
 		</action>
+		<action name="spider" class="com.hoolang.action.ProductAction"
+			method="spider">
+			<result name="success" type="redirect">/success.jsp</result>
+		<result name="error">/error.jsp</result>
+		</action>
 	</package>
 	<!-- CSV操作 END-->
 	
