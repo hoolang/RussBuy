@@ -44,6 +44,7 @@ public class ProductAction extends ActionSupport {
 		productsService.save(product);
 		return SUCCESS;
 	}
+	// 导入CSV文档
 	public String importCSV() throws Exception{
 		if(file == null){
 			return ERROR;

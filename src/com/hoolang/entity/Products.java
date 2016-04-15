@@ -122,13 +122,14 @@ public class Products implements Serializable{
 	public void setUnique_id(String unique_id) {
 		this.unique_id = unique_id;
 	}
-	@Column(length=10000)
+	@Column(columnDefinition="text")//字段为text类型
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	@Column(length=500)
 	public String getTags() {
 		return tags;
 	}
@@ -201,6 +202,7 @@ public class Products implements Serializable{
 	public void setMain_image_url(String main_image_url) {
 		this.main_image_url = main_image_url;
 	}
+	@Column(length=10000)
 	public String getExtra_image_urls() {
 		return extra_image_urls;
 	}
