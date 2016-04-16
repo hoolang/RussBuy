@@ -10,6 +10,7 @@ import us.codecraft.webmagic.processor.PageProcessor;
 
 import com.hoolang.service.ProductsService;
 import com.hoolang.spider.pipeline.SimplePipeline;
+import com.hoolang.util.Hoolang;
 
 public class PPKOOSpider implements PageProcessor {
 
@@ -18,15 +19,14 @@ public class PPKOOSpider implements PageProcessor {
 	private ProductsService productService;
 	@Override
 	public void process(Page page) {
+		page.putField("url", page.getUrl());
 		page.putField("title", page.getHtml().xpath("h1/text()"));
 		page.putField("price", page.getHtml().xpath("span[@id='js-price']//text()"));
-		// <div class="cons_main_rt_c"><div class="cons_m"><ul class="info">
 		page.putField("description", page.getHtml()
 				.xpath("//div[@class='cons_main_rt_c']/div[@class='cons_m']/ul[@class='info']/li/text()").all());
-		// <div class="b-thumb" id="thumblist"><ul>
 		page.putField("images",
 				page.getHtml().xpath("//div[@id='thumblist']/ul/li/a/img/@src").regex("(.*)_60x60.jpg").all());
-		page.getHtml().getDocument().outputSettings();
+
 	}
 
 	@Override
@@ -34,6 +34,7 @@ public class PPKOOSpider implements PageProcessor {
 		site.setCharset("UTF-8");
 		return site;
 	}
+	
 	public PPKOOSpider() {};
 
     public static PPKOOSpider create() {
@@ -51,10 +52,12 @@ public class PPKOOSpider implements PageProcessor {
 		list.add("http://www.ppkoo.com/product/5171257.html");
 		String[] strArr = new String[list.size()];
 		list.toArray(strArr);
-		Spider.create(new PPKOOSpider()).addUrl(strArr).addPipeline(new SimplePipeline()).run();
-		//Spider.create(new PPKOOSpider()).addRequest(arg0)+
+		
+		Spider.create(new PPKOOSpider())
+		.addUrl(strArr)
+		.addPipeline(new SimplePipeline().setLangType(Hoolang.LangType.ZH.toString()))
+		.run();
 	}
-
 
 	public ProductsService getProductService() {
 		return productService;

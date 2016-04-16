@@ -1,12 +1,14 @@
 package com.hoolang.action;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONObject;
 
 import com.hoolang.entity.Products;
 import com.hoolang.service.ProductsService;
 import com.hoolang.util.CSVUtil;
+import com.hoolang.util.MobuyUtil;
 import com.hoolang.util.spider.PPKOOSpider;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -42,7 +44,8 @@ public class ProductAction extends ActionSupport {
 	// 需要采集的urls
 	private String urls;
 	private Products product;
-	private ProductsService productsService;
+	public ProductsService productsService;
+	public List<Products> productList;
 
 	public String save(){
 		productsService.save(product);
@@ -59,13 +62,17 @@ public class ProductAction extends ActionSupport {
 		}
 		return SUCCESS;
 	}
+	// 查询
+	public String list(){
+		productList = productsService.listProduct();
+//		System.out.println("ssssssss====>"+productList.size());
+//		Map<String,Object> request = (Map)ActionContext.getContext().get("request");
+//		request.put("productList", productList);
+		return SUCCESS;
+	}
 	
+	// 爬虫
 	public String spider(){
-//		List<String> list = new ArrayList<String>();
-//		list.add("http://www.ppkoo.com/product/5429299.html");
-//		list.add("http://www.ppkoo.com/product/5171257.html");
-//		String[] strArr = new String[list.size()];
-//		list.toArray(strArr);
 		
 		if(urls == null || urls.length() == 0 ){
 			System.out.println("urls == null");
@@ -82,6 +89,37 @@ public class ProductAction extends ActionSupport {
 		}
 	}
 	
+	// 创建Mobuy产品
+	public String createMobuyProduct(){
+		try {
+			String result = MobuyUtil.create(product);
+			//转化为json对象，注：Json解析的jar包可选其它
+			JSONObject resultJson = new JSONObject(result.toString());
+
+			try {
+				String code = resultJson.getString("code");
+				if (Integer.getInteger(code) == 0) {
+					System.out.println("上传产品成功:");
+					System.out.println("产品ID:" + resultJson.getString("id"));
+
+				}else{
+					System.out.println("上传产品出错信息:" + resultJson.getString("message"));
+				}
+			} catch (Exception e) {}
+			
+		} catch (Exception e) {
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+	
+	
+	public List<Products> getProductList() {
+		return productList;
+	}
+	public void setProductList(List<Products> productList) {
+		this.productList = productList;
+	}
 	public long getUid() {
 		return uid;
 	}
@@ -215,5 +253,7 @@ public class ProductAction extends ActionSupport {
 	public void setUrls(String urls) {
 		this.urls = urls;
 	}
+
+	
 	
 }

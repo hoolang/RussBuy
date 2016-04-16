@@ -30,6 +30,10 @@
 </form>
 <hr>
 
+ <form method="post" action="csv/list.action">
+<input type="submit" name="爬虫" value="采集结果列表"><br/>
+</form>
+<hr>
  
 <form method="post" action="addUser.action"  enctype="multipart/form-data">
 用户名：<input type="text" name="user.name"><br/>

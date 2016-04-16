@@ -36,5 +36,6 @@ public interface BaseDao<T>
 	
 	List<T> findByHQL(String HQL, int max);
 	
+	List<T> findByPage(String hql, int pageNo, int pageSize);
 
 }

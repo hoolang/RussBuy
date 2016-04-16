@@ -139,7 +139,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 	 * @return 当前页的所有记录
 	 */
 	@SuppressWarnings("unchecked")
-	protected List<T> findByPage(String hql, int pageNo, int pageSize) {
+	public List<T> findByPage(String hql, int pageNo, int pageSize) {
 		// 创建查询
 		return getSessionFactory().getCurrentSession().createQuery(hql)
 				// 执行分页

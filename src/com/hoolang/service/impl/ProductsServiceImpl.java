@@ -1,5 +1,7 @@
 package com.hoolang.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -16,6 +18,10 @@ public class ProductsServiceImpl implements ProductsService{
 	public void save(Products product) {
 		// TODO Auto-generated method stub
 		productDao.save(product);
+	}
+	@Override
+	public List<Products> listProduct() {
+		return productDao.findByPage("from Products", 0, 10);
 	}
 
 }

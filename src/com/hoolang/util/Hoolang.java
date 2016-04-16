@@ -57,5 +57,18 @@ public class Hoolang {
 	 * 表示需要获取新的信息
 	 */
 	public static final String LATEST = "latest";
+	/**
+	 * 语言类型
+	 * @author hoolang
+	 *
+	 */
+    public static enum LangType {
+        ZH, EN, RU;
+    }
+    
+    /**
+     * Mobuy创建产品借口URL
+     */
+    public static final String MOBUY_CREATE_PRODUCT_URL = "http://vendor.mobuyapp.ru/devproduct/add";
 	
 }

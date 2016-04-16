@@ -60,6 +60,12 @@
 			<result name="success" type="redirect">/success.jsp</result>
 		<result name="error">/error.jsp</result>
 		</action>
+		
+		<action name="list" class="com.hoolang.action.ProductAction"
+			method="list">
+			<result name="success">/product/list.jsp</result>
+		<result name="error">/error.jsp</result>
+		</action>
 	</package>
 	<!-- CSV操作 END-->
 	
