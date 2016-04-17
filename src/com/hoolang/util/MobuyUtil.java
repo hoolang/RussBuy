@@ -20,7 +20,7 @@ import com.hoolang.entity.Products;
 public class MobuyUtil {
 
 	private static String ACCESS_TOKEN = "019d7ab13eab88c492e4ce92ec58b0d5";
-	public static String create(Products product) throws Exception{
+	public static String create(Products product, String subProducts) throws Exception{
 		//使用Post方式，组装参数
 		HttpPost httpost = new HttpPost(Hoolang.MOBUY_CREATE_PRODUCT_URL);
 		
@@ -28,83 +28,17 @@ public class MobuyUtil {
 		int radomInt = new Random().nextInt(99);
 		int radomInt2 = new Random().nextInt(99);
 		String parent_id = time +"-"+ radomInt +"-"+ radomInt2;
+		System.out.println("parent_id===>"+ parent_id);
+		System.out.println("product.getParent_id===>"+product.getParent_id());
 		product.setParent_id(parent_id);
 		
-		// 添加json开始符号
-		String products = "[";
-		
-		String[] colors = product.getColor().split(",");
-		String[] sizes = product.getSize().split(",");
-		
-		int i = 0;
-		
-		if(colors.length > 0 && sizes.length > 0){// 有颜色也有尺寸
-			System.out.println("有颜色也有尺寸");
-			for(String color : colors){
-				for(String size : sizes){
-					i++;
-					String subProduct = "{"
-							+ "sku:\"" + parent_id + "-" + i +"-" + color + "-" + size +"\","
-							+ "color:\"" + color + "\","
-							+ "size:\"" + size + "\","
-							+ "sell_price:\"" + product.getPrice() + "\","
-							+ "weight:\"" + product.getWeight() + "\","
-							+ "inventory:\"" + product.getQuantity() + "\","
-							+ "},";
-					products = products + subProduct;
-				}
-			}
-		}else if(colors.length > 0 && sizes.length == 0){
-			System.out.println("只有颜色");
-			for(String color : colors){
-				i++;
-				String subProduct = "{"
-						+ "sku:\"" + parent_id + "-" + i + "-" + color +"\","
-						+ "color:\"" + color + "\","
-						+ "size:\"\","
-						+ "sell_price:\"" + product.getPrice() + "\","
-						+ "weight:\"" + product.getWeight() + "\","
-						+ "inventory:\"" + product.getQuantity() + "\","
-						+ "},";
-				products = products + subProduct;
-			}
-		}else if(colors.length == 0 && sizes.length > 0){
-			System.out.println("只有尺寸");
-			for(String size : sizes){
-				i++;
-				String subProduct = "{"
-						+ "sku:\"" + parent_id + "-" + i + "-" + size +"\","
-						+ "color:\"\","
-						+ "size:\"" + size + "\","
-						+ "sell_price:\"" + product.getPrice() + "\","
-						+ "weight:\"" + product.getWeight() + "\","
-						+ "inventory:\"" + product.getQuantity() + "\","
-						+ "},";
-				products = products + subProduct;
-			}
-		}else if(colors.length == 0 && sizes.length == 0){
-			System.out.println("没颜色没尺寸");
-			String subProduct = "{"
-					+ "sku:\"" + parent_id + "-" +i+ "\","
-					+ "color:\"\","
-					+ "size:\"\","
-					+ "sell_price:\"" + product.getPrice() + "\","
-					+ "weight:\"" + product.getWeight() + "\","
-					+ "inventory:\"" + product.getQuantity() + "\","
-					+ "},";
-			products = products + subProduct;
-		}
-		// 去掉最后一个逗号，添加json关闭符号
-		products = products.substring(0,products.length()-1) + "]";
-
-		
-		String params = "access_token=" + ACCESS_TOKEN + "&name="+ product.getProduct_name()
+		String params = "access_token=" + ACCESS_TOKEN + "&name="+ product.getName()
 				+ "&parent_sku=" + product.getParent_id() + "&tags=" + product.getTags() 
 				+ "&main_image=" + product.getMain_image_url() + "&extra_images=" + product.getExtra_image_urls()
 				+ "&category=" + product.getCategory() + "&warehouse_address=" + 1 
 				+ "&description=" + product.getDescription() + "&short_description=" +""
-				+ "&other_platform_product_url=" + "" + "&products=" + products;
-		System.out.println(params);
+				+ "&other_platform_product_url=" + "" + "&products=" + subProducts;
+		System.out.println("params====>"+params);
 		StringEntity reqEntity = new StringEntity(params);
 		
 		reqEntity.setContentEncoding("UTF_8");

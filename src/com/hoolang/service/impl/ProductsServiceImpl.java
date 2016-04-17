@@ -23,5 +23,9 @@ public class ProductsServiceImpl implements ProductsService{
 	public List<Products> listProduct() {
 		return productDao.findByPage("from Products", 0, 10);
 	}
+	@Override
+	public Products oneProduct(long pid) {
+		return productDao.get(Products.class, pid);
+	}
 
 }

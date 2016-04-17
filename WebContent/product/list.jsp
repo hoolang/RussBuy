@@ -17,15 +17,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 <body>
 <table width="100%" border="0" cellspacing="" cellpadding="0">
-<th>ID</th><th>产品名称</th><th>价格</th><th>运费</th><th>分类</th><th>源网址</th>
-
+<tr><th>ID</th><th>产品名称</th><th>价格</th><th>运费</th><th>分类</th><th>源网址</th></tr>
 <s:iterator value="productList" id="product" > 
 	<tr style="">
 		<td>
-			${product.uid}
+			${product.pid}
 		</td>
 		<td>
-			${product.product_name}
+			${product.name}
 		</td>
 		<td>
 			${product.price}
@@ -40,8 +39,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			${product.category}
 		</td>
 		<td>
-			
 			<a href="${product.other_platform_product_url}">访问</a>
+		</td>
+		<td>
+			<a href="product/getOneProduct.action?pid=${product.pid}&type=0">发布到Mobuy</a>
 		</td>
 	</tr>
 </s:iterator>

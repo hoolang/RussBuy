@@ -58,7 +58,7 @@ public class CSVUtil {
 					float MSRP = price * 3;
 					
 					Date date = new Date();
-					product.setProduct_name(cr.get("*Product Name"));
+					product.setName(cr.get("*Product Name"));
 					product.setUnique_id("sku" + time + radomInt + i);
 					product.setParent_id("sku" + time + radomInt);
 					product.setDescription(cr.get("*Description"));

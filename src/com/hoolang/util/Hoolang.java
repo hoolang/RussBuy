@@ -65,6 +65,14 @@ public class Hoolang {
     public static enum LangType {
         ZH, EN, RU;
     }
+	/**
+	 * 创建产品的类型
+	 * @author hoolang
+	 *
+	 */
+    public static enum CreateType {
+        MOBUY, WISH, ALIEXPRESS;
+    }
     
     /**
      * Mobuy创建产品借口URL

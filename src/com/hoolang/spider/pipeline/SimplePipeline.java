@@ -43,7 +43,7 @@ public class SimplePipeline implements Pipeline {
 		System.out.println("HOOLANG:============================>"+SimplePipeline.class.getName());
 		Products product = new Products();
 		// 产品标题
-		product.setProduct_name(resultItems.get("title").toString());
+		product.setName(resultItems.get("title").toString());
 		// 产品价格
 		product.setPrice(Float.valueOf(resultItems.get("price").toString()));
 		// 产品描述
