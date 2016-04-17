@@ -9,14 +9,14 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="product/createMobuyProduct.action" method="post">
+<form id="submitForm" action="product/createMobuyProduct.action" method="post">
 产品标题：<input id="name" size="130" name="product.name" type="text" value="${product.name}"/><br/><br/>
 产品描述：<textarea id="description" rows="6" cols="100" name="product.description">${product.description}</textarea><br/><br/>
 产品标签：<textarea id="tags" rows="2" cols="100" name="product.tags">${product.tags}</textarea><br/><br/>
 价格与运送
 <hr>
-MSRP($):<input id="msrp" name="product.msrp" type="text" value="${product.msrp}"/>
-价格($):<input id="price" name="product.price" type="text" value="${product.price}"/>
+MSRP($):<input id="msrp" name="product.msrp" type="text" value="${product.msrp/6*3}"/>
+价格($):<input id="price" name="product.price" type="text" value="${product.price/6}"/>
 运费($):<input id="shipping" name="product.shipping" type="text" value="${product.shipping}"/>
 库存(数字):<input id="quantity" name="product.quantity" type="text" value="${product.quantity}"/>
 <br/>
@@ -47,9 +47,32 @@ MSRP($):<input id="msrp" name="product.msrp" type="text" value="${product.msrp}"
 <div id="subProduct"></div>
 <br/>
 <br/>
-<input type="submit" value="发布" width="140px">
+<input type="button" onclick="checkForSubmit()" value="发布" width="140px">
 </form>
 <script type="text/javascript">
+		function checkForSubmit()
+		{
+			if($("#price").val().length==0){
+				alert("请填写商品价格");
+				return;
+			}
+			else if($("#quantity").val().length==0){
+				alert("请填写库存");
+				return;
+			}else if($("#category").val().length==0){
+				alert("类目不能为空");
+				return;
+			}else if($("#size").val().length==0){
+				alert("尺寸不能为空（暂时颜色和尺寸都要填写）");
+				return;
+			}else if($("#color").val().length==0){
+				alert("颜色不能为空（暂时颜色和尺寸都要填写）");
+				return;
+			}
+			
+			$("#submitForm").submit();
+			
+		}
         function onAddTR()
         {
 			$("#subProduct").empty();

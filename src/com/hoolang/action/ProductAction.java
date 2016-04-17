@@ -77,8 +77,10 @@ public class ProductAction extends ActionSupport {
 	// 查询
 	public String getOneProduct(){
 		product = productsService.oneProduct(pid);
+		
 		if(product.getExtra_image_urls() != null){
 			String imgs = product.getExtra_image_urls().replace("[", "").replace("]", "");
+			product.setExtra_image_urls(imgs);
 			images = imgs.split(",");
 		}
 		createType = CreateType.values()[type];
