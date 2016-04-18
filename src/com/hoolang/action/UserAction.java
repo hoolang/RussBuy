@@ -7,10 +7,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Date;
-import java.util.UUID;
+
 
 import javax.annotation.Resource;
 
@@ -24,10 +22,7 @@ import com.opensymphony.xwork2.ActionSupport;
 @Controller
 public class UserAction extends ActionSupport{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6901479582316922510L;
 	
 	@Resource
 	private UserService userService;

@@ -8,17 +8,18 @@
 	<constant name="struts.action.extension" value=",action,json" />
 
 	<package name="user" namespace="/" extends="struts-default">
-	<!-- User -->
+		<!-- User -->
 		<action name="addUser" class="com.hoolang.action.UserAction"
 			method="save">
 			<result name="success" type="redirect">/success.jsp</result>
 			<result name="error">/error.jsp</result>
-			<interceptor-ref name="defaultStack">     
-                <param name="fileUpload.maximumSize">1024000</param>     
-                <param name="fileUpload.allowedTypes">     
-                     image/bmp,image/png,image/gif,image/jpeg,image/jpg,image/pjpeg ,image/bmp, image/gif, image/x-png,  
-                </param>     
-            </interceptor-ref> 
+			<interceptor-ref name="defaultStack">
+				<param name="fileUpload.maximumSize">1024000</param>
+				<param name="fileUpload.allowedTypes">
+					image/bmp,image/png,image/gif,image/jpeg,image/jpg,image/pjpeg
+					,image/bmp, image/gif, image/x-png,
+				</param>
+			</interceptor-ref>
 		</action>
 		<!-- End User -->
 		<!-- Post -->
@@ -26,20 +27,21 @@
 			method="save">
 			<result name="success" type="redirect">/success.jsp</result>
 			<result name="error">/error.jsp</result>
-			<interceptor-ref name="defaultStack">     
-                <param name="fileUpload.maximumSize">5024000</param>     
-                <param name="fileUpload.allowedTypes">     
-                     image/bmp,image/png,image/gif,image/jpeg,image/jpg,image/pjpeg ,image/bmp, image/gif, image/x-png,  
-                </param>
-            </interceptor-ref> 
+			<interceptor-ref name="defaultStack">
+				<param name="fileUpload.maximumSize">5024000</param>
+				<param name="fileUpload.allowedTypes">
+					image/bmp,image/png,image/gif,image/jpeg,image/jpg,image/pjpeg
+					,image/bmp, image/gif, image/x-png,
+				</param>
+			</interceptor-ref>
 		</action>
 		<!-- End Post -->
 		<!-- Comments -->
-	<action name="addComment" class="com.hoolang.action.CommentsAction"
-		method="save">
-		<result name="success" type="redirect">/success.jsp</result>
-		<result name="error">/error.jsp</result>
-	</action>
+		<action name="addComment" class="com.hoolang.action.CommentsAction"
+			method="save">
+			<result name="success" type="redirect">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
 		<!-- End Comments -->
 	</package>
 	<!-- CSV操作 -->
@@ -48,80 +50,101 @@
 			method="importCSV">
 			<result name="success" type="redirect">/success.jsp</result>
 			<result name="error">/error.jsp</result>
-			<interceptor-ref name="defaultStack">     
-                <param name="fileUpload.maximumSize">5024000</param>     
-                <param name="fileUpload.allowedTypes">     
-                     text/csv,
-                </param>
-            </interceptor-ref> 
+			<interceptor-ref name="defaultStack">
+				<param name="fileUpload.maximumSize">5024000</param>
+				<param name="fileUpload.allowedTypes">
+					text/csv,
+				</param>
+			</interceptor-ref>
 		</action>
 		<action name="spider" class="com.hoolang.action.ProductAction"
 			method="spider">
 			<result name="success" type="redirect">/success.jsp</result>
-		<result name="error">/error.jsp</result>
+			<result name="error">/error.jsp</result>
 		</action>
-		
+
 		<action name="list" class="com.hoolang.action.ProductAction"
 			method="list">
 			<result name="success">/product/list.jsp</result>
-		<result name="error">/error.jsp</result>
+			<result name="error">/error.jsp</result>
 		</action>
 	</package>
-	<!-- 产品操作 END-->
+	<!-- 产品操作 END -->
 	<package name="product" namespace="/product" extends="struts-default">
 		<action name="getOneProduct" class="com.hoolang.action.ProductAction"
 			method="getOneProduct">
-		<result name="mobuy">/product/createMobuy.jsp</result>
-		<result name="wish">/product/createWish.jsp</result>
-		<result name="aliexpress">/product/createAliexpress.jsp</result>
-		<result name="error">/error.jsp</result>
+			<result name="mobuy">/product/createMobuy.jsp</result>
+			<result name="wish">/product/createWish.jsp</result>
+			<result name="aliexpress">/product/createAliexpress.jsp</result>
+			<result name="error">/error.jsp</result>
 		</action>
-		
+
 		<action name="createMobuyProduct" class="com.hoolang.action.ProductAction"
 			method="createMobuyProduct">
-		<result name="success" type="redirect">/success.jsp</result>
-		<result name="error">/error.jsp</result>
+			<result name="success" type="redirect">/success.jsp</result>
+			<result name="error">/error.jsp</result>
 		</action>
 	</package>
 	<!-- 产品JSON请求 -->
 	<package name="productJson" namespace="/pjson" extends="json-default">
 		<action name="translate" class="com.hoolang.action.ProductAction"
 			method="translate">
-		<result type="json">
+			<result type="json">
 				<!-- 此处将reslut的值返回给客户端，root的值对应要返回的值的属性result 注意：root为固定写法，否则不会把result的值返回给客户端 -->
 				<param name="root">result</param>
-		</result>
+			</result>
 		</action>
 		<action name="createTags" class="com.hoolang.action.ProductAction"
 			method="createTags">
-		<result type="json">
+			<result type="json">
 				<!-- 此处将reslut的值返回给客户端，root的值对应要返回的值的属性result 注意：root为固定写法，否则不会把result的值返回给客户端 -->
 				<param name="root">result</param>
-		</result>
+			</result>
 		</action>
 	</package>
-	<!-- 产品操作 END-->
-	
+	<!-- Size操作 -->
+
+	<package name="size" namespace="/size" extends="struts-default">
+		<action name="getOneSize" class="com.hoolang.action.SizeAction"
+			method="getOneSize">
+			<result name="success" type="redirect">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+		<action name="createSize" class="com.hoolang.action.com.hoolang.action.SizeAction"
+			method="createSize">
+			<result name="success" type="redirect">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+		<action name="list" class="com.hoolang.action.com.hoolang.action.SizeAction"
+			method="list">
+			<result name="success">/product/list.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+	</package>
+	<!-- Size操作 end -->
+
 	<package name="ajax" extends="json-default" namespace="/nsjson">
-	<action name="addPost" class="com.hoolang.action.PostAction"
+		<action name="addPost" class="com.hoolang.action.PostAction"
 			method="save">
 			<result type="json">
 				<!-- 此处将reslut的值返回给客户端，root的值对应要返回的值的属性result 注意：root为固定写法，否则不会把result的值返回给客户端 -->
 				<param name="root">result</param>
 			</result>
-			<interceptor-ref name="defaultStack">     
-                <param name="fileUpload.maximumSize">5024000</param>     
-                <param name="fileUpload.allowedTypes">     
-                     image/bmp,image/png,image/gif,image/jpeg,image/jpg,image/pjpeg ,image/bmp, image/gif, image/x-png,  
-                </param>
-            </interceptor-ref> 
+			<interceptor-ref name="defaultStack">
+				<param name="fileUpload.maximumSize">5024000</param>
+				<param name="fileUpload.allowedTypes">
+					image/bmp,image/png,image/gif,image/jpeg,image/jpg,image/pjpeg
+					,image/bmp, image/gif, image/x-png,
+				</param>
+			</interceptor-ref>
 		</action>
 		<action name="listPosts" class="com.hoolang.action.PostAction"
 			method="listPosts">
 			<result type="json">
-	<!-- 此处将reslut的值返回给客户端，root的值对应要返回的值的属性result 注意：root为固定写法，否则不会把result的值返回给客户端 -->
-	<param name="root">result</param>
-</result>
+				<!-- 此处将reslut的值返回给客户端，root的值对应要返回的值的属性result 注意：root为固定写法，否则不会把result的值返回给客户端 -->
+				<param name="root">result</param>
+			</result>
 		</action>
 		<!-- 最新的show -->
 		<action name="latest_posts" class="com.hoolang.action.PostAction"
@@ -171,7 +194,7 @@
 				<param name="root">result</param>
 			</result>
 		</action>
-		
+
 		<!-- 评论最多的数据 -->
 		<action name="top_most_comments_latest_posts" class="com.hoolang.action.PostAction"
 			method="top_most_comments_latest_posts">
@@ -188,8 +211,8 @@
 				<param name="root">result</param>
 			</result>
 		</action>
-		
-				<!-- 评论最多的数据 -->
+
+		<!-- 评论最多的数据 -->
 		<action name="top_most_likes_latest_posts" class="com.hoolang.action.PostAction"
 			method="top_most_likes_latest_posts">
 			<result type="json">
@@ -205,29 +228,29 @@
 				<param name="root">result</param>
 			</result>
 		</action>
-		
-		
+
+
 		<!-- ====================排行榜结束====================== -->
-	<!-- Comments -->
-	<action name="addComment" class="com.hoolang.action.CommentsAction"
-		method="save">
+		<!-- Comments -->
+		<action name="addComment" class="com.hoolang.action.CommentsAction"
+			method="save">
 			<result type="json">
 				<!-- 此处将reslut的值返回给客户端，root的值对应要返回的值的属性result 注意：root为固定写法，否则不会把result的值返回给客户端 -->
 				<param name="root">result</param>
 			</result>
-	</action>
-	<action name="listComments" class="com.hoolang.action.CommentsAction"
-		method="findComments">
+		</action>
+		<action name="listComments" class="com.hoolang.action.CommentsAction"
+			method="findComments">
 			<result type="json">
 				<!-- 此处将reslut的值返回给客户端，root的值对应要返回的值的属性result 注意：root为固定写法，否则不会把result的值返回给客户端 -->
 				<param name="root">result</param>
 			</result>
-	</action>
+		</action>
 		<!-- 最新的show -->
 		<action name="latest_comments" class="com.hoolang.action.CommentsAction"
 			method="latest_comments">
 			<result type="json">
-		<!-- 此处将reslut的值返回给客户端，root的值对应要返回的值的属性result 注意：root为固定写法，否则不会把result的值返回给客户端 -->
+				<!-- 此处将reslut的值返回给客户端，root的值对应要返回的值的属性result 注意：root为固定写法，否则不会把result的值返回给客户端 -->
 				<param name="root">result</param>
 			</result>
 		</action>
@@ -240,15 +263,15 @@
 			</result>
 		</action>
 
-	<!-- End Comments -->
-	<!-- Like -->
+		<!-- End Comments -->
+		<!-- Like -->
 		<action name="addLike" class="com.hoolang.action.LikeAction"
-		method="save">
+			method="save">
 			<result type="json">
 				<!-- 此处将reslut的值返回给客户端，root的值对应要返回的值的属性result 注意：root为固定写法，否则不会把result的值返回给客户端 -->
 				<param name="root">result</param>
 			</result>
-	</action>
-	<!-- End Like -->
+		</action>
+		<!-- End Like -->
 	</package>
 </struts>   

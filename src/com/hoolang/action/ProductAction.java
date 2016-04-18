@@ -19,12 +19,11 @@ import com.hoolang.util.spider.PPKOOSpider;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class ProductAction extends ActionSupport {
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 527259201856721178L;
-
+	private static final long serialVersionUID = -1798029820407579409L;
+	
 	private long pid;
 	private String name;
 	private String unique_id;
