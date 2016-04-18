@@ -153,7 +153,7 @@
 			var sku = Math.floor(Math.random() * 100);
 			var sku2 = Math.floor(Math.random() * 100);
 			var i = 0;
-			var parent_id = timestamp + "-" + sku + "-" + sku2;
+			var parent_id = timestamp + "-" + sku + sku2;
 			$("#parent_id").val(parent_id);
 			if (colors.length != 0 && sizes.length != 0) {// 有颜色也有尺寸
 
@@ -164,7 +164,7 @@
 						//alert("size->"+size);
 						insertStr = insertStr
 								+ "<tr>"
-								+ "<td><input type=\"text\" name=\"skus\" value=\""+ parent_id +"-"+ i + "\"></td>"
+								+ "<td><input type=\"text\" name=\"skus\" value=\""+ parent_id +""+ i +"-"+ sizes[size] +"-"+ colors[color]+"\"></td>"
 								+ "<td><input type=\"text\" name=\"sizes\" value=\""+ sizes[size] +"\"></td>"
 								+ "<td><input type=\"text\" name=\"colors\" value=\""+ colors[color] +"\"></td>"
 								+ "<td><input type=\"text\" name=\"market_price\" value=\""

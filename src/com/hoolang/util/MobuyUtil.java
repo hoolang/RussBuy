@@ -1,10 +1,9 @@
 package com.hoolang.util;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Random;
 
 import org.apache.http.HttpEntity;
@@ -13,7 +12,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.json.JSONObject;
 
 import com.hoolang.entity.Products;
 
@@ -32,16 +30,16 @@ public class MobuyUtil {
 		System.out.println("product.getParent_id===>"+product.getParent_id());
 		product.setParent_id(parent_id);
 		
-		String params = "access_token=" + ACCESS_TOKEN + "&name="+ product.getName()
-				+ "&parent_sku=" + product.getParent_id() + "&tags=" + product.getTags() 
+		String params = "access_token=" + ACCESS_TOKEN + "&name="+ URLEncoder.encode(product.getName(), "utf-8")
+				+ "&parent_sku=" + product.getParent_id() + "&tags=" + URLEncoder.encode(product.getTags(), "utf-8") 
 				+ "&main_image=" + product.getMain_image_url() + "&extra_images=" + product.getExtra_image_urls()
 				+ "&category=" + product.getCategory() + "&warehouse_address=" + 1 
-				+ "&description=" + product.getDescription() + "&short_description=" +""
+				+ "&description=" + URLEncoder.encode(product.getDescription(), "utf-8")  + "&short_description=" +""
 				+ "&other_platform_product_url=" + "" + "&products=" + subProducts;
 		System.out.println("params====>"+params);
 		StringEntity reqEntity = new StringEntity(params);
 		
-		reqEntity.setContentEncoding("UTF8");
+		reqEntity.setContentEncoding("utf8");
 		// 设置类型
 	    reqEntity.setContentType("application/x-www-form-urlencoded");
 		httpost.setEntity(reqEntity);  
@@ -53,7 +51,7 @@ public class MobuyUtil {
 		HttpEntity entity = response.getEntity();
 		InputStream returnStream = entity.getContent();
 		BufferedReader reader = new BufferedReader(
-				new InputStreamReader(returnStream, "UTF8"));
+				new InputStreamReader(returnStream, "utf8"));
 		StringBuilder result = new StringBuilder();
 		String str = null;
 		while ((str = reader.readLine()) != null) {
