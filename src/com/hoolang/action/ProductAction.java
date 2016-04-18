@@ -14,6 +14,7 @@ import com.hoolang.util.CSVUtil;
 import com.hoolang.util.Hoolang.CreateType;
 import com.hoolang.util.JsonTool;
 import com.hoolang.util.MobuyUtil;
+import com.hoolang.util.WordUtil;
 import com.hoolang.util.spider.PPKOOSpider;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -68,6 +69,18 @@ public class ProductAction extends ActionSupport {
 		return SUCCESS;
 	}
 
+	/**
+	 * 生成标签（默认通过name来创建）
+	 * @return
+	 * @throws IOException
+	 */
+	public String createTags() throws IOException{
+		HashMap map = new HashMap();
+		map.put("tags", WordUtil.split(name));
+		String params[] = {};
+		JsonTool.fromObject(map, params);
+		return null;
+	}
 	/**
 	 * 一键翻译
 	 * @return

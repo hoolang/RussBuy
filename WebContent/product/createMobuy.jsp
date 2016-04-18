@@ -67,20 +67,37 @@
 	</form>
 	<script type="text/javascript">
 		$(document).ready(function() {
+			$("#createTags").click(function() {
+				var url = '../pjson/createTags.action';
+				//获取表单值，并以json的数据形式保存到params中  
+				var params = {
+					name : $("#name").val(),
+				}
+				$.ajax({
+					type : 'POST',
+					url : url,
+					data : params,
+					success : function cbf(data) { //服务器返回后执行的函数 参数 data保存的就是服务器发送到客户端的数据  
+						$("#tags").val(data.tags);
+					},
+					dataType : 'json'
+				});
+			});
 			
-			if($("#name") ==  null || $("#name").val().length == 0){
-				alert("标题不能为空");
-				return;
-			}else if($("#description") ==  null || $("#description").val().length == 0){
-				alert("描述不能为空");
-				return;
-			}else if($("#tags") ==  null || $("#name").val().length == 0){
-				alert("标签不能为空");
-				return;
-			}
-
 			//使用 Ajax 的方式 判断登录  
 			$("#translate").click(function() {
+				
+				if($("#name") ==  null || $("#name").val().length == 0){
+					alert("标题不能为空");
+					return;
+				}else if($("#description") ==  null || $("#description").val().length == 0){
+					alert("描述不能为空");
+					return;
+				}else if($("#tags") ==  null || $("#name").val().length == 0){
+					alert("标签不能为空");
+					return;
+				}
+				
 				var url = '../pjson/translate.action';
 				//获取表单值，并以json的数据形式保存到params中  
 				var params = {

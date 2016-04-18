@@ -41,7 +41,7 @@ public class MobuyUtil {
 		System.out.println("params====>"+params);
 		StringEntity reqEntity = new StringEntity(params);
 		
-		reqEntity.setContentEncoding("UTF_8");
+		reqEntity.setContentEncoding("UTF8");
 		// 设置类型
 	    reqEntity.setContentType("application/x-www-form-urlencoded");
 		httpost.setEntity(reqEntity);  

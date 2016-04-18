@@ -92,6 +92,13 @@
 				<param name="root">result</param>
 		</result>
 		</action>
+		<action name="createTags" class="com.hoolang.action.ProductAction"
+			method="createTags">
+		<result type="json">
+				<!-- 此处将reslut的值返回给客户端，root的值对应要返回的值的属性result 注意：root为固定写法，否则不会把result的值返回给客户端 -->
+				<param name="root">result</param>
+		</result>
+		</action>
 	</package>
 	<!-- 产品操作 END-->
 	
