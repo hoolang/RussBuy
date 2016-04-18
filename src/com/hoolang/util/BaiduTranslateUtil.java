@@ -4,21 +4,17 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -169,5 +165,62 @@ private static final String UTF8 = "utf-8";
 		}
 		
 		return result;
+	}
+	// 自动检测语言翻译为俄文
+	public static  String translateAutoToRu(String q) throws Exception{
+	
+		String result = null;
+		try {
+			result = translate(q, "auto", "ru");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	// 自动检测语言翻译为中文
+	public static  String translateAutoToZh(String q) throws Exception{
+	
+		String result = null;
+		try {
+			result = translate(q, "auto", "zh");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	// 自动检测语言翻译为英文
+	public static  String translateAutoToEn(String q) throws Exception{
+	
+		String result = null;
+		try {
+			result = translate(q, "auto", "En");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public static HashMap translateProduct(String name, String tags, String description){
+		System.out.println(name);
+		System.out.println(tags);
+		System.out.println(description);
+		String resultTitle = null;
+		String resultTags = null;
+		String resultDescription = null;
+		try {
+			resultTitle = translateAutoToRu(name);
+			resultTags = translateAutoToRu(tags);
+			resultDescription = translateAutoToRu(description);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		HashMap map = new HashMap();
+		map.put("name", resultTitle);
+		map.put("tags", resultTags);
+		map.put("description", resultDescription);
+		return map;
 	}
 }

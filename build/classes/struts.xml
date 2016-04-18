@@ -82,7 +82,16 @@
 		<result name="success" type="redirect">/success.jsp</result>
 		<result name="error">/error.jsp</result>
 		</action>
-		
+	</package>
+	<!-- 产品JSON请求 -->
+	<package name="productJson" namespace="/pjson" extends="json-default">
+		<action name="translate" class="com.hoolang.action.ProductAction"
+			method="translate">
+		<result type="json">
+				<!-- 此处将reslut的值返回给客户端，root的值对应要返回的值的属性result 注意：root为固定写法，否则不会把result的值返回给客户端 -->
+				<param name="root">result</param>
+		</result>
+		</action>
 	</package>
 	<!-- 产品操作 END-->
 	
@@ -103,9 +112,9 @@
 		<action name="listPosts" class="com.hoolang.action.PostAction"
 			method="listPosts">
 			<result type="json">
-				<!-- 此处将reslut的值返回给客户端，root的值对应要返回的值的属性result 注意：root为固定写法，否则不会把result的值返回给客户端 -->
-				<param name="root">result</param>
-			</result>
+	<!-- 此处将reslut的值返回给客户端，root的值对应要返回的值的属性result 注意：root为固定写法，否则不会把result的值返回给客户端 -->
+	<param name="root">result</param>
+</result>
 		</action>
 		<!-- 最新的show -->
 		<action name="latest_posts" class="com.hoolang.action.PostAction"
