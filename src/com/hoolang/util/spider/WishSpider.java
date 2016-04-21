@@ -15,36 +15,47 @@ import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
+import us.codecraft.webmagic.selector.JsonPathSelector;
 
 public class WishSpider implements PageProcessor {
-
+	private final static String DOMAIN = "www.wish.com";
+	
 	private Site site = Site.me()
-			.setDomain("www.wish.com")
+			.setDomain(DOMAIN)
 			.setSleepTime(3000)
 			.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36")
-			.addCookie("cookie", "_xsrf=6e7058739c2b4d9885020dcaa36b9b27; sweeper_session=\"NjZmZDAzMTAtN2QwNi00MDVkLTg3YzEtYWJiNTQ1NDg0MzI4MjAxNi0wNC0yMCAwMjozNTo1MC4zNzczNTU=|1461119750|81dca46503c3f1448e29c47456a7aa31fcbb102e\"; __utma=96128154.386040617.1461119607.1461135505.1461145295.7; __utmc=96128154; __utmz=96128154.1461119607.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); bsid=cd1cb516f9e24d00a7ffb8c9f81ba9fb; sweeper_uuid=e6e81042f9364690b953568dfdf7b0bc")
+			.addHeader("Cookie", "_xsrf=6e7058739c2b4d9885020dcaa36b9b27; sweeper_session=\"NjZmZDAzMTAtN2QwNi00MDVkLTg3YzEtYWJiNTQ1NDg0MzI4MjAxNi0wNC0yMCAwMjozNTo1MC4zNzczNTU=|1461119750|81dca46503c3f1448e29c47456a7aa31fcbb102e\"; __utma=96128154.386040617.1461119607.1461202432.1461202473.10; __utmb=96128154.2.10.1461202473; __utmc=96128154; __utmz=96128154.1461119607.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); sweeper_uuid=7df137106d514570b25ae5b9255ab8e2; bsid=1e3dcf29c2d34479a74d7d34dac1c1c9")
+			.addHeader("Accept", "application/json, text/javascript, */*; q=0.01")
 			.addHeader("Accept-Encoding", "gzip, deflate")
+			.addHeader("Accept-Language", "zh-CN,zh;q=0.8")
 			.addHeader("Accept-Cache-Control","max-age=0")
 			.addHeader("Connection","keep-alive")
 			.addHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8")
 			.addHeader("X-Requested-With","XMLHttpRequest")
 			.addHeader("X-XSRFToken","6e7058739c2b4d9885020dcaa36b9b27")
 			;
-	
-	//.addHeader("Accept", "application/json, text/javascript, \*\/\*; q=0.01");
 
 	private ProductsService productService;
 	@Override
 	public void process(Page page) {
-		System.out.println("page.getHtml()--->"+page.getHtml());
-		page.putField("url", page.getUrl());
-		page.putField("title", page.getHtml().xpath("h1/text()"));
-		page.putField("price", page.getHtml().xpath("span[@id='js-price']//text()"));
-		page.putField("description", page.getHtml()
-				.xpath("//div[@class='cons_main_rt_c']/div[@class='cons_m']/ul[@class='info']/li/text()").all());
-		page.putField("images",
-				page.getHtml().xpath("//div[@id='thumblist']/ul/li/a/img/@src").regex("(.*)_60x60.jpg").all());
 
+		//page.putField("title", new JsonPathSelector("$.data.title").select(page.getRawText()));
+		//page.putField("url", page.getUrl());
+		page.putField("title", new JsonPathSelector("$.data.contest.name").select(page.getRawText()));
+		page.putField("price", new JsonPathSelector("$.data.contest.commerce_product_info.variations[*].price").selectList(page.getRawText()));
+		page.putField("size", new JsonPathSelector("$.data.contest.commerce_product_info.variations[*].size").selectList(page.getRawText()));
+		page.putField("color", new JsonPathSelector("$.data.contest.commerce_product_info.variations[*].color").selectList(page.getRawText()));
+		page.putField("description", new JsonPathSelector("$.data.contest.description").select(page.getRawText()));
+		page.putField("tags", new JsonPathSelector("$.data.contest.tags[*].name").selectList(page.getRawText()));
+		page.putField("images",	new JsonPathSelector("$.data.contest.extra_photo_urls").selectList(page.getRawText()));
+		
+		System.out.println("title=====>"+page.getResultItems().get("title").toString());
+		System.out.println("size=====>"+page.getResultItems().get("size").toString());
+		System.out.println("color=====>"+page.getResultItems().get("color").toString());
+		System.out.println("price=====>"+page.getResultItems().get("price").toString());
+		System.out.println("description=====>"+page.getResultItems().get("description").toString());
+		System.out.println("tags=====>"+page.getResultItems().get("tags").toString());
+		System.out.println("images=====>"+page.getResultItems().get("images").toString());
 	}
 
 	@Override
@@ -66,18 +77,8 @@ public class WishSpider implements PageProcessor {
 	public static void main(String[] args) {
 		Request request = new Request("https://www.wish.com/api/product/get");
 		request.setMethod("post");
-
-		
-		/**
-		Accept-Encoding:gzip, deflate
-		Accept-Language:zh-CN,zh;q=0.8
-		Connection:keep-alive
-		Content-Length:137
-		Content-Type:application/x-www-form-urlencoded; charset=UTF-8
-		Cookie:_xsrf=6e7058739c2b4d9885020dcaa36b9b27; sweeper_session="NjZmZDAzMTAtN2QwNi00MDVkLTg3YzEtYWJiNTQ1NDg0MzI4MjAxNi0wNC0yMCAwMjozNTo1MC4zNzczNTU=|1461119750|81dca46503c3f1448e29c47456a7aa31fcbb102e"; __utmt=1; bsid=f3b46f4d411c4e29a5608e56aaf16d2c; __utma=96128154.386040617.1461119607.1461131065.1461134042.5; __utmb=96128154.13.10.1461134042; __utmc=96128154; __utmz=96128154.1461119607.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); sweeper_uuid=98ded8bc15634e84a1448fa302134939
-		**/
 		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-		nvps.add(new BasicNameValuePair("cid", "5625aabf2836c3628b83e2df"));
+		nvps.add(new BasicNameValuePair("cid", "561cc758627ec95e0297f43a"));
 		nvps.add(new BasicNameValuePair("related_contest_count", "9"));
 		nvps.add(new BasicNameValuePair("include_related_creator", "false"));
 		nvps.add(new BasicNameValuePair("request_sizing_chart_info", "false"));
