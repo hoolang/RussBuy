@@ -39,10 +39,10 @@
 		</s:iterator>
 		<br /> 类目<input id="category" name="product.category" type="text" />
 		<hr>
-		<br /> <br /> 尺寸<input id="size" type="text" /><input type="button"
+		<br /> <br /> 尺寸<input id="size" type="text" size="80" value="${product.size }" /><input type="button"
 			value="刷新SKU" />
 		<hr>
-		<br /> 颜色<input id="color" type="text" /><input type="button"
+		<br /> 颜色<input id="color" type="text" size="80" value="${product.color }"/><input type="button"
 			value="刷新SKU" />
 		<hr>
 		<br /> 子产品

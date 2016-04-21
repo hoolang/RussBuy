@@ -213,7 +213,7 @@ public class Products implements Serializable {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-
+	@Column(length = 500)
 	public String getColor() {
 		return color;
 	}

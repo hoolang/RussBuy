@@ -2,8 +2,11 @@ package com.hoolang.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.JSONObject;
 
@@ -16,6 +19,7 @@ import com.hoolang.util.JsonTool;
 import com.hoolang.util.MobuyUtil;
 import com.hoolang.util.WordUtil;
 import com.hoolang.util.spider.PPKOOSpider;
+import com.hoolang.util.spider.WishSpider;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class ProductAction extends ActionSupport {
@@ -161,6 +165,38 @@ public class ProductAction extends ActionSupport {
 				return ERROR;
 			} else {
 				PPKOOSpider.create().spider(productsService, URLs);
+				return SUCCESS;
+			}
+		}
+	}
+	
+	/**
+	 * 临时方法
+	 * @return
+	 */
+	public String spiderWish(){
+		if (urls == null || urls.length() == 0) {
+			System.out.println("urls == null");
+			return ERROR;
+		} else {
+			String[] URLs = urls.split("\r\n");
+			if (URLs.length == 0) {
+				System.out.println("URLs.length == 0");
+				return ERROR;
+			} else {
+				List list = new ArrayList();
+				for(int i=0; i< URLs.length; i++){
+					String regex="https://www.wish.com/c/(.*)";
+					Pattern p = Pattern.compile(regex);
+					Matcher m=p.matcher(URLs[i]);
+					  while(m.find()){
+						  list.add(m.group(1));
+						  System.out.println(m.group(1));
+					  }
+				}
+				String[] urls = new String[list.size()];
+				list.toArray(urls);
+				WishSpider.create().spider(productsService, urls);
 				return SUCCESS;
 			}
 		}

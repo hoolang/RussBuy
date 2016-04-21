@@ -7,18 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form method="post" action="https://www.wish.com/api/product/get">
-		<input name="cid" type="text" />
-		<input name="related_contest_count" type="text" value="9" />
-		<input name="include_related_creator:false"	type="text" value="9" />
-		<input name="request_sizing_chart_info:true" type="text" value="9" />
-		<input name="_buckets" type="text" value="" />
-		<input name="_experiments" type="text" value="" />
-		<input type="submit" name=""
-			value="提交"><br />
-		
-	</form>
-
 	<form method="post" action="csv/importCSV.action"
 		enctype="multipart/form-data">
 		<input name="file" type="file" /> <input type="submit" name="导入CSV"
@@ -26,9 +14,15 @@
 	</form>
 	<hr>
 
+	<form method="post" action="csv/spiderWish.action">
+		<textarea rows="10" cols="80" name="urls"></textarea>
+		<input type="submit" name="爬虫" value="Wish采集"><br />
+	</form>
+	<hr>
+	
 	<form method="post" action="csv/spider.action">
 		<textarea rows="10" cols="80" name="urls"></textarea>
-		<input type="submit" name="爬虫" value="采集"><br />
+		<input type="submit" name="爬虫" value="PPKOO采集"><br />
 	</form>
 	<hr>
 

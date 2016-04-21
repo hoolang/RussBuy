@@ -48,23 +48,25 @@ public class SimplePipeline implements Pipeline {
 		product.setPrice(Float.valueOf(resultItems.get("price").toString()));
 		// 产品描述
 		product.setDescription(resultItems.get("description").toString());
+
 		// 产品关键词
 		String tags = "";
 		if(resultItems.get("tags") != null){
 			tags = resultItems.get("tags").toString();
 		}
+		product.setTags(tags);
 		// 产品颜色
 		String colorStr = "";
 		if(resultItems.get("color") != null){
 			colorStr = resultItems.get("color").toString();
 		}
-		product.setDescription(colorStr);
+		product.setColor(colorStr);
 		// 产品尺寸
 		String sizeStr = "";
 		if(resultItems.get("size") != null){
 			sizeStr = resultItems.get("size").toString();
 		}
-		product.setDescription(sizeStr);
+		product.setSize(sizeStr);
 		
 		// 产品图片集合
 		product.setExtra_image_urls(resultItems.get("images").toString());

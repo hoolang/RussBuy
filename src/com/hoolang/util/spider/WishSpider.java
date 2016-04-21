@@ -1,21 +1,30 @@
 package com.hoolang.util.spider;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import net.sf.json.JSONArray;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-
-import com.hoolang.service.ProductsService;
-import com.hoolang.spider.pipeline.SimplePipeline;
-import com.hoolang.util.Hoolang;
+import org.json.JSONObject;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
+import us.codecraft.webmagic.scheduler.QueueScheduler;
 import us.codecraft.webmagic.selector.JsonPathSelector;
+
+import com.hoolang.service.ProductsService;
+import com.hoolang.spider.DuplicateRemover.DonothingDuplicateRemover;
+import com.hoolang.spider.pipeline.SimplePipeline;
+import com.hoolang.util.Hoolang;
 
 public class WishSpider implements PageProcessor {
 	private final static String DOMAIN = "www.wish.com";
@@ -41,21 +50,27 @@ public class WishSpider implements PageProcessor {
 
 		//page.putField("title", new JsonPathSelector("$.data.title").select(page.getRawText()));
 		//page.putField("url", page.getUrl());
+		page.putField("url", "https://www.wish.com/c/"+page.getRequest().getExtra("cid"));
 		page.putField("title", new JsonPathSelector("$.data.contest.name").select(page.getRawText()));
-		page.putField("price", new JsonPathSelector("$.data.contest.commerce_product_info.variations[*].price").selectList(page.getRawText()));
-		page.putField("size", new JsonPathSelector("$.data.contest.commerce_product_info.variations[*].size").selectList(page.getRawText()));
-		page.putField("color", new JsonPathSelector("$.data.contest.commerce_product_info.variations[*].color").selectList(page.getRawText()));
+		page.putField("price", new JsonPathSelector("$.data.contest.commerce_product_info.variations[*].price").selectList(page.getRawText()).get(0)+"");
+		page.putField("size", new JsonPathSelector("$.data.contest.commerce_product_info.variations[*].size").selectList(page.getRawText())
+				.toString().replace("[", "").replace("]", ""));
+		page.putField("color", new JsonPathSelector("$.data.contest.commerce_product_info.variations[*].color").selectList(page.getRawText())
+				.toString().replace("[", "]").replace("[", "]"));
+		// 描述
 		page.putField("description", new JsonPathSelector("$.data.contest.description").select(page.getRawText()));
-		page.putField("tags", new JsonPathSelector("$.data.contest.tags[*].name").selectList(page.getRawText()));
-		page.putField("images",	new JsonPathSelector("$.data.contest.extra_photo_urls").selectList(page.getRawText()));
-		
-		System.out.println("title=====>"+page.getResultItems().get("title").toString());
-		System.out.println("size=====>"+page.getResultItems().get("size").toString());
-		System.out.println("color=====>"+page.getResultItems().get("color").toString());
-		System.out.println("price=====>"+page.getResultItems().get("price").toString());
-		System.out.println("description=====>"+page.getResultItems().get("description").toString());
-		System.out.println("tags=====>"+page.getResultItems().get("tags").toString());
-		System.out.println("images=====>"+page.getResultItems().get("images").toString());
+		// 标签
+		page.putField("tags", new JsonPathSelector("$.data.contest.tags[*].name").selectList(page.getRawText())
+				.toString().replace("[", "").replace("]",""));
+		// 图片
+		String str = new JsonPathSelector("$.data.contest.extra_photo_urls").selectList(page.getRawText()).toString().replace("\\", "");
+		Matcher matcher = Pattern.compile("https:\"?(.*?)(\"|>|\\s+)").matcher(str);  
+        String images = "";
+        while (matcher.find()) {  
+        	images += matcher.group().replace("\"", "").replace("small", "original") + ",";
+        }
+        images.subSequence(0, images.length()-1);
+        page.putField("images",	images);
 	}
 
 	@Override
@@ -72,10 +87,11 @@ public class WishSpider implements PageProcessor {
 	public WishSpider spider(ProductsService productService,String[] urls){
 		Request[] requests = new Request[urls.length];
 		for(int i = 0; i<urls.length; i++){
-			Request request = new Request(urls[i]);
+			Request request = new Request("https://www.wish.com/api/product/get");
 			request.setMethod("post");
 			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-			nvps.add(new BasicNameValuePair("cid", "561cc758627ec95e0297f43a"));
+			System.out.println("urls:===>"+urls[i]);
+			nvps.add(new BasicNameValuePair("cid", urls[i]));
 			nvps.add(new BasicNameValuePair("related_contest_count", "9"));
 			nvps.add(new BasicNameValuePair("include_related_creator", "false"));
 			nvps.add(new BasicNameValuePair("request_sizing_chart_info", "false"));
@@ -84,7 +100,9 @@ public class WishSpider implements PageProcessor {
 			request.putExtra("nameValuePair", nvps.toArray(new NameValuePair[nvps.size()]));
 			requests[i] = request;
 		}
-		Spider.create(new WishSpider()).addPipeline(new SimplePipeline(productService)).addRequest(requests).run();
+		Spider.create(new WishSpider()).setScheduler(new QueueScheduler().setDuplicateRemover(new DonothingDuplicateRemover()))
+		.addPipeline(new SimplePipeline(productService)).addRequest(requests).run();;
+
 		return this;
 	}
 	

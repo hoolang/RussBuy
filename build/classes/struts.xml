@@ -62,6 +62,11 @@
 			<result name="success" type="redirect">/success.jsp</result>
 			<result name="error">/error.jsp</result>
 		</action>
+		<action name="spiderWish" class="com.hoolang.action.ProductAction"
+			method="spiderWish">
+			<result name="success" type="redirect">/product/list.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
 
 		<action name="list" class="com.hoolang.action.ProductAction"
 			method="list">
