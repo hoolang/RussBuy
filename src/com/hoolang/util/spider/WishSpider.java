@@ -70,7 +70,21 @@ public class WishSpider implements PageProcessor {
     }
     
 	public WishSpider spider(ProductsService productService,String[] urls){
-		Spider.create(new WishSpider()).addPipeline(new SimplePipeline(productService)).addUrl(urls).run();
+		Request[] requests = new Request[urls.length];
+		for(int i = 0; i<urls.length; i++){
+			Request request = new Request(urls[i]);
+			request.setMethod("post");
+			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+			nvps.add(new BasicNameValuePair("cid", "561cc758627ec95e0297f43a"));
+			nvps.add(new BasicNameValuePair("related_contest_count", "9"));
+			nvps.add(new BasicNameValuePair("include_related_creator", "false"));
+			nvps.add(new BasicNameValuePair("request_sizing_chart_info", "false"));
+			nvps.add(new BasicNameValuePair("_buckets", ""));
+			nvps.add(new BasicNameValuePair("_experiments", ""));
+			request.putExtra("nameValuePair", nvps.toArray(new NameValuePair[nvps.size()]));
+			requests[i] = request;
+		}
+		Spider.create(new WishSpider()).addPipeline(new SimplePipeline(productService)).addRequest(requests).run();
 		return this;
 	}
 	
