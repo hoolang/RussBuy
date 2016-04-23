@@ -42,7 +42,7 @@ public class MobuyUtil {
 		reqEntity.setContentEncoding("utf8");
 		// 设置类型
 	    reqEntity.setContentType("application/x-www-form-urlencoded");
-		httpost.setEntity(reqEntity);  
+		httpost.setEntity(reqEntity);
 		//创建httpclient链接，并执行
 	    CloseableHttpClient httpclient = HttpClients.createDefault();
 	    CloseableHttpResponse response = httpclient.execute(httpost);

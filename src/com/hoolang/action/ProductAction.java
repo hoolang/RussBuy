@@ -8,9 +8,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.hoolang.entity.Products;
+import com.hoolang.mgr.WishMgr;
 import com.hoolang.service.ProductsService;
 import com.hoolang.util.BaiduTranslateUtil;
 import com.hoolang.util.CSVUtil;
@@ -249,6 +251,58 @@ public class ProductAction extends ActionSupport {
 
 		} catch (Exception e) {
 			System.out.println(e);
+			return ERROR;
+		}
+	}
+	
+	/**
+	 * 创建wish商品
+	 * @return
+	 */
+	public String createWish(){
+		System.out.println("parent id:====>"+ product.getParent_id());
+		product.setExtra_image_urls(product.getExtra_image_urls().replace(",", "|"));
+		String result = WishMgr.getInstance().createProduct(product);
+		System.out.println("result===>"+result);
+		JSONObject resultJson;
+		try {
+			resultJson = new JSONObject(result.toString());
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+			System.out.println("解析JSON出错");
+			return ERROR;
+		}
+
+		try {
+			String code = resultJson.getString("code");
+			System.out.println("code===>"+code);
+			if (Integer.valueOf(code) == 0) {
+				System.out.println("上传产品成功:");
+				for (int i = 0; i < skus.length; i++) {					
+					Products pro = new Products();
+					pro.setUnique_id(skus[i]);
+					pro.setParent_id(this.product.getParent_id());
+					pro.setSize(sizes[i].trim());
+					pro.setColor(colors[i].trim());
+					if(Float.valueOf(market_price[i])!=null){
+						pro.setMsrp(Float.valueOf(market_price[i]));
+					}
+					if(Float.valueOf(sell_price[i])!=null){
+						pro.setPrice(Float.valueOf(sell_price[i]));
+					}
+					pro.setShipping(this.product.getShipping());
+					pro.setQuantity(inventory[i]);
+					
+					WishMgr.getInstance().createProductVariation(pro);
+				}
+				
+				return SUCCESS;
+			} else {
+				System.out.println("上传产品失败信息:" + resultJson.getString("message"));
+				return ERROR;
+			}
+		} catch (Exception e) {
+			System.out.println("上传产品出错信息:"+e);
 			return ERROR;
 		}
 	}

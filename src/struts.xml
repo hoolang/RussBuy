@@ -6,7 +6,8 @@
 <struts>
 	<constant name="struts.i18n.encoding" value="UTF-8" />
 	<constant name="struts.action.extension" value=",action,json" />
-
+	<!-- Wish配置文件 -->
+	<include file="struts-wish.xml"></include>
 	<package name="user" namespace="/" extends="struts-default">
 		<!-- User -->
 		<action name="addUser" class="com.hoolang.action.UserAction"
@@ -128,6 +129,26 @@
 		</action>
 	</package>
 	<!-- Size操作 end -->
+	<package name="oauth" namespace="/oauth" extends="struts-default">
+		<action name="oauthWish" class="com.hoolang.action.OAuthAction"
+			method="oauthWish">
+			<result name="success" type="redirect">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+		<action name="createSize" class="com.hoolang.action.com.hoolang.action.SizeAction"
+			method="createSize">
+			<result name="success" type="redirect">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+		<action name="list" class="com.hoolang.action.com.hoolang.action.SizeAction"
+			method="list">
+			<result name="success">/product/list.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 授权操作 -->
 
 	<package name="ajax" extends="json-default" namespace="/nsjson">
 		<action name="addPost" class="com.hoolang.action.PostAction"

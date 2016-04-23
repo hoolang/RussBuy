@@ -19,7 +19,7 @@
 		<input type="submit" name="爬虫" value="Wish采集"><br />
 	</form>
 	<hr>
-	
+
 	<form method="post" action="csv/spider.action">
 		<textarea rows="10" cols="80" name="urls"></textarea>
 		<input type="submit" name="爬虫" value="PPKOO采集"><br />
@@ -74,6 +74,17 @@
 	<form method="post" action="nsjson/addLike.json">
 		该用户点赞：<input type="text" value="1" name="user.uid"><br />
 		点赞的秀秀：<input type="text" value="42" name="post.pid"><br /> <br />
+		<input type="submit"><br />
+	</form>
+
+	<h1>获取access_token</h1>
+	<hr>
+	<form method="post" action="oauth/oauthWish.action">
+	client_id:<input type="text" value="1" name="client_id" value="571b48bd2b296c17406ff8e7"><br />
+client_secret:<input type="text" value="1" name="client_secret" value="ef6ef7a6823f41beab714111b5764b2b"><br />
+code:<input type="text" value="1" name="code" value="b22b533e3fb04b5d8bde1b33ae541df9"><br />
+grant_type:<input type="text" value="1" name="grant_type" value="authorization_code"><br />
+redirect_uri:<input type="text" value="1" name="redirect_uri" value="https://127.0.0.1"><br />
 		<input type="submit"><br />
 	</form>
 </body>
