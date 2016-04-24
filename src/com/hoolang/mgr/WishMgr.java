@@ -51,6 +51,7 @@ public class WishMgr {
 		
 		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 		nvps.add(new BasicNameValuePair("name", product.getName()));
+		nvps.add(new BasicNameValuePair("parent_sku", product.getParent_id()));
 		nvps.add(new BasicNameValuePair("sku", product.getParent_id()));
 		nvps.add(new BasicNameValuePair("inventory", product.getQuantity()));
 		nvps.add(new BasicNameValuePair("price", product.getPrice() + ""));
@@ -110,13 +111,6 @@ public class WishMgr {
 
 	// 产品变种
 	public static String createProductVariation(Products product) throws ClientProtocolException, IOException {
-		// parent_sku = red-shoe
-		// sku = red-shoe-12
-		// inventory = 10
-		// price = 10
-		// shipping = 3
-		// access_token = an_example_access_token
-		// size = 12
 		HttpPost httpost = new HttpPost(ADD_VARIANT);
 		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 		nvps.add(new BasicNameValuePair("parent_sku", product.getParent_id()));
