@@ -24,8 +24,8 @@
 		<br /> 价格与运送
 		<hr>
 		MSRP($):<input id="msrp" name="product.msrp" type="text"
-			value="${product.msrp/6*3}" /> 价格($):<input id="price"
-			name="product.price" type="text" value="${product.price/6}" /> 运费($):<input
+			value="${product.price * 2.5}" /> 价格($):<input id="price"
+			name="product.price" type="text" value="${product.price}" /> 运费($):<input
 			id="shipping" name="product.shipping" type="text"
 			value="${product.shipping}" /> 库存(数字):<input id="quantity"
 			name="product.quantity" type="text" value="${product.quantity}" /> <br />
@@ -126,12 +126,6 @@
 			} else if ($("#quantity").val().length == 0) {
 				alert("请填写库存");
 				return;
-			} else if ($("#size").val().length == 0) {
-				alert("尺寸不能为空（暂时颜色和尺寸都要填写）");
-				return;
-			} else if ($("#color").val().length == 0) {
-				alert("颜色不能为空（暂时颜色和尺寸都要填写）");
-				return;
 			}
 
 			$("#submitForm").submit();
@@ -162,8 +156,8 @@
 						insertStr = insertStr
 								+ "<tr>"
 								+ "<td><input type=\"text\" name=\"skus\" value=\""+ parent_id +""+ i +"-"+ sizes[size] +"-"+ colors[color]+"\"></td>"
-								+ "<td><input type=\"text\" name=\"sizes\" value=\""+ sizes[size] +"\"></td>"
-								+ "<td><input type=\"text\" name=\"colors\" value=\""+ colors[color] +"\"></td>"
+								+ "<td><input type=\"text\" name=\"sizes\" value=\""+ $.trim(sizes[size]) +"\"></td>"
+								+ "<td><input type=\"text\" name=\"colors\" value=\""+ $.trim(colors[color]) +"\"></td>"
 								+ "<td><input type=\"text\" name=\"market_price\" value=\""
 								+ $("#msrp").val()
 								+ "\"></td>"
