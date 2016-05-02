@@ -17,6 +17,8 @@ import com.hoolang.service.ProductsService;
 import com.hoolang.util.BaiduTranslateUtil;
 import com.hoolang.util.CSVUtil;
 import com.hoolang.util.Hoolang.CreateType;
+import com.hoolang.util.Hoolang;
+import com.hoolang.util.ImageMarkLogoUtil;
 import com.hoolang.util.JsonTool;
 import com.hoolang.util.MobuyUtil;
 import com.hoolang.util.WordUtil;
@@ -127,7 +129,7 @@ public class ProductAction extends ActionSupport {
 		if (product.getExtra_image_urls() != null) {
 			String imgs = product.getExtra_image_urls().replace("[", "").replace("]", "");
 			product.setExtra_image_urls(imgs);
-			images = imgs.split(",");
+			images = imgs.split("\\|");
 		}
 		createType = CreateType.values()[type];
 		switch (createType) {
@@ -261,7 +263,34 @@ public class ProductAction extends ActionSupport {
 	 */
 	public String createWish(){
 		System.out.println("parent id:====>"+ product.getParent_id());
-		product.setExtra_image_urls(product.getExtra_image_urls().replace(",", "|"));
+		//product.setExtra_image_urls(product.getExtra_image_urls().replace(",", "|"));
+		String mark = Hoolang.ROOT +"images/" + product.getMain_image_url() + ".mark.jpg";
+		String source = Hoolang.ROOT +"images/" + product.getMain_image_url();
+		String icon = Hoolang.ROOT +"images/new.png";
+		
+		String[] images = product.getExtra_image_urls().split("\\|");
+		
+		String extra_image_urls = "";
+		String main_image = product.getMain_image_url();
+		for(int i = 0; i < images.length; i++){
+			if(!images[i].equals(main_image)){
+				extra_image_urls = extra_image_urls + Hoolang.ROOT +"images/" + images[i] + "|";
+			}
+		}
+		extra_image_urls = extra_image_urls.substring(0, extra_image_urls.length() - 1);
+		System.out.println("extra_image_urls===>" + extra_image_urls);
+		product.setExtra_image_urls(extra_image_urls);
+		
+		ImageMarkLogoUtil.setImageMarkOptions(1, 10, 10, null, null);
+		ImageMarkLogoUtil.markImageByIcon(icon, source, mark);
+		
+		File file=new File(mark);
+		// 如果水印图片存在，就用水印图片来做主图
+		if(file.exists())
+		{    
+			product.setMain_image_url(mark);
+		}
+		
 		String result = WishMgr.getInstance().createProduct(product);
 		System.out.println("result===>"+result);
 		JSONObject resultJson;

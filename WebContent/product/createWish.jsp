@@ -28,16 +28,18 @@
 			name="product.price" type="text" value="${product.price}" /> 运费($):<input
 			id="shipping" name="product.shipping" type="text"
 			value="${product.shipping}" /> 库存(数字):<input id="quantity"
-			name="product.quantity" type="text" value="${product.quantity}" /> <br />
+			name="product.quantity" type="text" value="1200" /> <br />
 		产品图片
 		<hr>
 		<input name="product.extra_image_urls" type="hidden"
-			value="${product.extra_image_urls}"> <input
-			name="product.main_image_url" type="hidden" value="${images[0]}">
+			value="${product.extra_image_urls}">
+			<!-- <input
+			name="product.main_image_url" type="hidden" value="${images[0]}"> -->
 		<s:iterator value="images" var="image">
-			<img width="120" height="120" src="${image}">
+			<img width="120" height="120" src="../images/${image}">
+			<input type="radio" class = "main_image" name="product.main_image_url" value="${image}">
 		</s:iterator>
-		<br /> 类目<input id="category" name="product.category" type="text" />
+
 		<hr>
 		<br /> <br /> 尺寸<input id="size" type="text" size="80" value="${product.size }" /><input type="button"
 			value="刷新SKU" />
@@ -55,7 +57,7 @@
 				<th>颜色</th>
 				<th>MSRP($)</th>
 				<th>价格($)</th>
-				<th>重量
+				<th>重量</th>
 				<th>库存</th>
 			</tr>
 		</table>
@@ -77,7 +79,7 @@
 					type : 'POST',
 					url : url,
 					data : params,
-					success : function cbf(data) { //服务器返回后执行的函数 参数 data保存的就是服务器发送到客户端的数据  
+					success : function cbf(data) { //服务器返回后执行的函数 参数 data保存的就是服务器发送到客户端的数据
 						$("#tags").val(data.tags);
 					},
 					dataType : 'json'
@@ -96,8 +98,8 @@
 				}else if($("#tags") ==  null || $("#name").val().length == 0){
 					alert("标签不能为空");
 					return;
-				}
-				
+				}				
+
 				var url = '../pjson/translate.action';
 				//获取表单值，并以json的数据形式保存到params中  
 				var params = {
@@ -123,8 +125,14 @@
 			if ($("#price").val().length == 0) {
 				alert("请填写商品价格");
 				return;
-			} else if ($("#quantity").val().length == 0) {
+			}else if ($("#quantity").val().length == 0) {
 				alert("请填写库存");
+				return;
+			}else if ($("#shipping").val().length == 0) {
+					alert("请填写运费");
+					return;
+			}else if($(".main_image:checked").val() == null){
+				alert("请选择大图");
 				return;
 			}
 
@@ -158,15 +166,10 @@
 								+ "<td><input type=\"text\" name=\"skus\" value=\""+ parent_id +""+ i +"-"+ sizes[size] +"-"+ colors[color]+"\"></td>"
 								+ "<td><input type=\"text\" name=\"sizes\" value=\""+ $.trim(sizes[size]) +"\"></td>"
 								+ "<td><input type=\"text\" name=\"colors\" value=\""+ $.trim(colors[color]) +"\"></td>"
-								+ "<td><input type=\"text\" name=\"market_price\" value=\""
-								+ $("#msrp").val()
-								+ "\"></td>"
-								+ "<td><input type=\"text\" name=\"sell_price\" value=\""
-								+ $("#price").val()
-								+ "\"></td>"
+								+ "<td><input type=\"text\" name=\"market_price\" value=\""+ $("#msrp").val() + "\"></td>"
+								+ "<td><input type=\"text\" name=\"sell_price\" value=\""+ $("#price").val()+ "\"></td>"
 								+ "<td><input type=\"text\" name=\"weights\" value=\"0.3\"></td>"
-								+ "<td><input type=\"text\" name=\"inventory\" value=\""
-								+ $("#quantity").val() + "\"></td></tr>";
+								+ "<td><input type=\"text\" name=\"inventory\" value=\"" + $("#quantity").val() + "\"></td></tr>";
 					}
 				}
 				insertStr = insertStr + "</table>";

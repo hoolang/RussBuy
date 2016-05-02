@@ -78,5 +78,9 @@ public class Hoolang {
      * Mobuy创建产品借口URL
      */
     public static final String MOBUY_CREATE_PRODUCT_URL = "http://vendor.mobuyapp.ru/devproduct/add";
+    /**
+     * 系统根路径
+     */
+    public static final String ROOT = System.getProperty("Hoolang.root");
 	
 }
