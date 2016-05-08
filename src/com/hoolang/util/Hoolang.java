@@ -11,7 +11,11 @@ package com.hoolang.util;
  */
 
 public class Hoolang {
-
+	
+	/**
+	 * 服务器地址
+	 */
+	public static final String SERVICE_URL = "http://192.168.168.100:8080/nvshen/";
 	/**
 	 * 数据名称
 	 */
@@ -82,5 +86,20 @@ public class Hoolang {
      * 系统根路径
      */
     public static final String ROOT = System.getProperty("Hoolang.root");
-	
+    
+    ////////////////////////JSON RESULT/////////////////////////////////
+    /**
+     * 获取一个产品信息
+     */
+    public static final String PRODUCT_ONE_URL = SERVICE_URL + "pjson/oneProduct.action";
+    /**
+     * 产品列表URL http://127.0.0.1:8080/nvshen/
+     */
+    public static final String PRODUCT_LIST_URL = SERVICE_URL + "pjson/productList.action";
+    
+    /**
+     * 生成水印图片
+     */
+    public static final String PRODUCT_CREATE_MARK = SERVICE_URL + "pjson/productCreateMark.action";
+////////////////////////JSON RESULT END/////////////////////////////////
 }

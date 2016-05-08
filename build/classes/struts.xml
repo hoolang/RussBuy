@@ -90,6 +90,12 @@
 			<result name="success" type="redirect">/success.jsp</result>
 			<result name="error">/error.jsp</result>
 		</action>
+
+		<action name="productList" class="com.hoolang.action.ProductAction"
+			method="productList">
+			<result name="success">/product/list.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
 	</package>
 	<!-- 产品JSON请求 -->
 	<package name="productJson" namespace="/pjson" extends="json-default">
@@ -100,6 +106,7 @@
 				<param name="root">result</param>
 			</result>
 		</action>
+		<!-- 创建标签 -->
 		<action name="createTags" class="com.hoolang.action.ProductAction"
 			method="createTags">
 			<result type="json">
@@ -107,8 +114,44 @@
 				<param name="root">result</param>
 			</result>
 		</action>
+
+		<!-- 一个产品 -->
+		<action name="oneProduct" class="com.hoolang.action.ProductAction"
+			method="getOneProductJson">
+			<result type="json">
+				<!-- 此处将reslut的值返回给客户端，root的值对应要返回的值的属性result 注意：root为固定写法，否则不会把result的值返回给客户端 -->
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<!-- 产品列表 -->
+		<action name="productList" class="com.hoolang.action.ProductAction"
+			method="listJson">
+			<result type="json">
+				<!-- 此处将reslut的值返回给客户端，root的值对应要返回的值的属性result 注意：root为固定写法，否则不会把result的值返回给客户端 -->
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="productCreateMark" class="com.hoolang.action.ImageAction"
+			method="productCreateMark">
+			<result type="json">
+				<!-- 此处将reslut的值返回给客户端，root的值对应要返回的值的属性result 注意：root为固定写法，否则不会把result的值返回给客户端 -->
+				<param name="root">result</param>
+			</result>
+		</action>
 	</package>
 	<!-- Size操作 -->
+
+	<package name="admin" namespace="/admin" extends="struts-default">
+		<action name="oneProduct" class="com.hoolang.action.ProductAction"
+			method="oneProduct">
+			<result name="mobuy">/product/createMobuy.jsp</result>
+			<result name="wish">/product/createWish.jsp</result>
+			<result name="aliexpress">/product/createAliexpress.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+	</package>
 
 	<package name="size" namespace="/size" extends="struts-default">
 		<action name="getOneSize" class="com.hoolang.action.SizeAction"
@@ -147,7 +190,7 @@
 			<result name="error">/error.jsp</result>
 		</action>
 	</package>
-	
+
 	<!-- 授权操作 -->
 
 	<package name="ajax" extends="json-default" namespace="/nsjson">

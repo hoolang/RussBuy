@@ -1,13 +1,25 @@
 package com.hoolang.action;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,11 +28,11 @@ import com.hoolang.mgr.WishMgr;
 import com.hoolang.service.ProductsService;
 import com.hoolang.util.BaiduTranslateUtil;
 import com.hoolang.util.CSVUtil;
-import com.hoolang.util.Hoolang.CreateType;
 import com.hoolang.util.Hoolang;
-import com.hoolang.util.ImageMarkLogoUtil;
+import com.hoolang.util.Hoolang.CreateType;
 import com.hoolang.util.JsonTool;
 import com.hoolang.util.MobuyUtil;
+import com.hoolang.util.RequestJson;
 import com.hoolang.util.WordUtil;
 import com.hoolang.util.spider.PPKOOSpider;
 import com.hoolang.util.spider.WishSpider;
@@ -98,8 +110,7 @@ public class ProductAction extends ActionSupport {
 		System.out.println("===>" + tags);
 		System.out.println("===>" + description);
 		HashMap map = BaiduTranslateUtil.translateProduct(name, tags, description);
-		String params[] = {};
-		JsonTool.fromObject(map, params);
+		JsonTool.fromObject(map);
 		return null;
 	}
 
@@ -143,6 +154,53 @@ public class ProductAction extends ActionSupport {
 			return "mobuy";
 		}
 	}
+	
+	/**
+	 * 获取一个产品 
+	 * @return JSON数据
+	 */
+	public String getOneProductJson() {
+		product = productsService.oneProduct(pid);
+		HashMap map = new HashMap();
+		String params[] = {};
+		try {
+			map.put("code", 0);
+			map.put("content", product);
+			JsonTool.fromObject(map, params);
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**
+	 * 管理后台调用
+	 * @return 获取一个服务器上的产品后调到对应的发布界面
+	 * @throws UnsupportedOperationException
+	 * @throws IOException
+	 */
+	public String oneProduct() throws UnsupportedOperationException, IOException{
+		product = RequestJson.oneProduct(pid);
+
+		if (product.getExtra_image_urls() != null) {
+			String imgs = product.getExtra_image_urls().replace("[", "").replace("]", "");
+			product.setExtra_image_urls(imgs);
+			images = imgs.split("\\|");
+		}
+		createType = CreateType.values()[type];
+		switch (createType) {
+		case MOBUY:
+			return "mobuy";
+		case WISH:
+			return "wish";
+		case ALIEXPRESS:
+			return "aliexpress";
+		default:
+			return "mobuy";
+		}
+	}
+	
 
 	/**
 	 * 产品列表
@@ -150,6 +208,37 @@ public class ProductAction extends ActionSupport {
 	 */
 	public String list() {
 		productList = productsService.listProduct();
+		return SUCCESS;
+	}
+	
+	/**
+	 * 产品列表JSON结果
+	 * @return
+	 */
+	public String listJson() {
+		productList = productsService.listProduct();
+		HashMap map = new HashMap();
+		String params[] = {};
+		try {
+			map.put("content", productList);
+			JsonTool.fromObject(map, params);
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
+	/**
+	 * 管理后台通过获取服务器json展示数据
+	 * @return
+	 * @throws JSONException 
+	 * @throws IOException 
+	 */
+	public String productList() throws IOException, JSONException{
+		System.out.println("productList");
+		productList = RequestJson.productList();
 		return SUCCESS;
 	}
 
@@ -260,13 +349,16 @@ public class ProductAction extends ActionSupport {
 	/**
 	 * 创建wish商品
 	 * @return
+	 * @throws IOException 
+	 * @throws ClientProtocolException 
+	 * @throws JSONException 
 	 */
-	public String createWish(){
+	public String createWish() throws ClientProtocolException, IOException, JSONException{
 		System.out.println("parent id:====>"+ product.getParent_id());
 		//product.setExtra_image_urls(product.getExtra_image_urls().replace(",", "|"));
-		String mark = Hoolang.ROOT +"images/" + product.getMain_image_url() + ".mark.jpg";
-		String source = Hoolang.ROOT +"images/" + product.getMain_image_url();
-		String icon = Hoolang.ROOT +"images/new.png";
+		String mark = Hoolang.SERVICE_URL +"images/" + product.getMain_image_url() + ".mark.jpg";
+		String source = Hoolang.SERVICE_URL +"images/" + product.getMain_image_url();
+		String icon = Hoolang.SERVICE_URL +"images/new.png";
 		
 		String[] images = product.getExtra_image_urls().split("\\|");
 		
@@ -274,19 +366,40 @@ public class ProductAction extends ActionSupport {
 		String main_image = product.getMain_image_url();
 		for(int i = 0; i < images.length; i++){
 			if(!images[i].equals(main_image)){
-				extra_image_urls = extra_image_urls + Hoolang.ROOT +"images/" + images[i] + "|";
+				extra_image_urls = extra_image_urls + Hoolang.SERVICE_URL +"images/" + images[i] + "|";
 			}
 		}
 		extra_image_urls = extra_image_urls.substring(0, extra_image_urls.length() - 1);
 		System.out.println("extra_image_urls===>" + extra_image_urls);
 		product.setExtra_image_urls(extra_image_urls);
 		
-		ImageMarkLogoUtil.setImageMarkOptions(1, 10, 10, null, null);
-		ImageMarkLogoUtil.markImageByIcon(icon, source, mark);
+		//ImageMarkLogoUtil.setImageMarkOptions(1, 10, 10, null, null);
+		//ImageMarkLogoUtil.markImageByIcon(icon, source, mark);
 		
-		File file=new File(mark);
+		
+		HttpPost httpost = new HttpPost(Hoolang.PRODUCT_CREATE_MARK);
+		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+		nvps.add(new BasicNameValuePair("image", product.getMain_image_url()));
+		httpost.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
+		
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+	    CloseableHttpResponse response = httpclient.execute(httpost);
+	    
+	    //对于返回实体进行解析
+		HttpEntity entity = response.getEntity();
+		InputStream returnStream = entity.getContent();
+		BufferedReader reader = new BufferedReader(
+				new InputStreamReader(returnStream, "UTF-8"));
+		StringBuilder createResult = new StringBuilder();
+		String str = null;
+		while ((str = reader.readLine()) != null) {
+			createResult.append(str).append("\n");
+		}
+		JSONObject createJson = new JSONObject(createResult.toString());
+		// 获取返回标志
+		String createCode = createJson.getString("code");
 		// 如果水印图片存在，就用水印图片来做主图
-		if(file.exists())
+		if(Integer.valueOf(createCode) != null)
 		{    
 			product.setMain_image_url(mark);
 		}
@@ -307,7 +420,7 @@ public class ProductAction extends ActionSupport {
 			System.out.println("code===>"+code);
 			if (Integer.valueOf(code) == 0) {
 				System.out.println("上传产品成功:");
-				for (int i = 0; i < skus.length; i++) {					
+				for (int i = 0; i < skus.length; i++) {
 					Products pro = new Products();
 					pro.setUnique_id(skus[i]);
 					pro.setParent_id(this.product.getParent_id());

@@ -111,8 +111,7 @@ public class Products implements Serializable {
 		this.create_date = create_date;
 		this.update_date = update_date;
 	}
-
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public long getPid() {

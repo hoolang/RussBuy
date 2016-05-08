@@ -26,7 +26,7 @@
 	</form>
 	<hr>
 
-	<form method="post" action="csv/list.action">
+	<form method="post" action="product/productList.action">
 		<input type="submit" name="爬虫" value="采集结果列表"><br />
 	</form>
 	<hr>

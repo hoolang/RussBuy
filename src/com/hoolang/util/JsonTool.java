@@ -1,10 +1,10 @@
 package com.hoolang.util;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
@@ -15,6 +15,12 @@ import com.opensymphony.xwork2.ActionContext;
 
 public class JsonTool {
 
+	/***
+	 * 
+	 * @param obj
+	 * @param params 需要过滤的字段
+	 * @throws IOException
+	 */
 	public static void fromObject(Object obj, String[] params) throws IOException{
 		
 		JsonConfig jsonConfig = new JsonConfig();  
@@ -34,5 +40,17 @@ public class JsonTool {
 		response.setContentType("text/html; charset=UTF-8");
 	    //response.setCharacterEncoding("UTF-8");
 	    response.getWriter().print(jsonObject);
+	}
+	
+	public static void fromObject(Object obj) throws IOException{
+		String[] params = {};
+		JsonTool.fromObject(obj, params);
+	}
+	
+	public static void defaultSuccess() throws IOException{
+		HashMap map = new HashMap();
+		map.put("code", "0");
+		String[] params = {};
+		JsonTool.fromObject(map, params);
 	}
 }

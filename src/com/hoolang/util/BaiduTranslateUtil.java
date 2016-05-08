@@ -179,7 +179,7 @@ private static final String UTF8 = "utf-8";
 		return result;
 	}
 	// 自动检测语言翻译为中文
-	public static  String translateAutoToZh(String q) throws Exception{
+	public static String translateAutoToZh(String q) throws Exception{
 	
 		String result = null;
 		try {
@@ -191,7 +191,7 @@ private static final String UTF8 = "utf-8";
 		return result;
 	}
 	// 自动检测语言翻译为英文
-	public static  String translateAutoToEn(String q) throws Exception{
+	public static String translateAutoToEn(String q) throws Exception{
 	
 		String result = null;
 		try {

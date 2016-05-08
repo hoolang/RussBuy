@@ -42,8 +42,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="${product.other_platform_product_url}">访问</a>
 		</td>
 		<td width="200">
-			<a href="product/getOneProduct.action?pid=${product.pid}&type=0">发布到Mobuy</a><br/>
-			<a href="product/getOneProduct.action?pid=${product.pid}&type=1">发布到Wish</a><br/>
+			<a href="admin/oneProduct.action?pid=${product.pid}&type=0">发布到Mobuy</a><br/>
+			<a href="admin/oneProduct.action?pid=${product.pid}&type=1">发布到Wish</a><br/>
 		</td>
 	</tr>
 </s:iterator>
