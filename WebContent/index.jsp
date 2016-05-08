@@ -14,7 +14,7 @@
 	</form>
 	<hr>
 
-	<form method="post" action="csv/spiderWish.action">
+	<form method="post" action="spider/wish.action">
 		<textarea rows="10" cols="80" name="urls"></textarea>
 		<input type="submit" name="爬虫" value="Wish采集"><br />
 	</form>

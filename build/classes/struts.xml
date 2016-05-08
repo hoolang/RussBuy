@@ -97,6 +97,16 @@
 			<result name="error">/error.jsp</result>
 		</action>
 	</package>
+	<!-- 爬虫 -->
+	<package name="spider" namespace="/spider" extends="struts-default">
+		<!-- wish 爬虫 -->
+		<action name="wish" class="com.hoolang.action.ProductAction"
+			method="spiderWishAdmin">
+			<result name="success" type="redirect">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+	</package>
+	
 	<!-- 产品JSON请求 -->
 	<package name="productJson" namespace="/pjson" extends="json-default">
 		<action name="translate" class="com.hoolang.action.ProductAction"
@@ -132,7 +142,7 @@
 				<param name="root">result</param>
 			</result>
 		</action>
-
+	<!-- 生成水印图片 -->
 		<action name="productCreateMark" class="com.hoolang.action.ImageAction"
 			method="productCreateMark">
 			<result type="json">
@@ -140,6 +150,15 @@
 				<param name="root">result</param>
 			</result>
 		</action>
+		<!-- Wish爬虫 -->
+		<action name="wishSpider" class="com.hoolang.action.ProductAction"
+			method="spiderWishJson">
+			<result type="json">
+				<!-- 此处将reslut的值返回给客户端，root的值对应要返回的值的属性result 注意：root为固定写法，否则不会把result的值返回给客户端 -->
+				<param name="root">result</param>
+			</result>
+		</action>
+		
 	</package>
 	<!-- Size操作 -->
 

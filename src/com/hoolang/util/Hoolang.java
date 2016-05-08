@@ -15,7 +15,8 @@ public class Hoolang {
 	/**
 	 * 服务器地址
 	 */
-	public static final String SERVICE_URL = "http://192.168.168.100:8080/nvshen/";
+	public static final String SERVICE_URL = "http://23.88.177.154:8080/nvshen/";
+//	public static final String SERVICE_URL = "http://192.168.168.100:8080/nvshen/";
 	/**
 	 * 数据名称
 	 */
@@ -96,10 +97,13 @@ public class Hoolang {
      * 产品列表URL http://127.0.0.1:8080/nvshen/
      */
     public static final String PRODUCT_LIST_URL = SERVICE_URL + "pjson/productList.action";
-    
     /**
      * 生成水印图片
      */
     public static final String PRODUCT_CREATE_MARK = SERVICE_URL + "pjson/productCreateMark.action";
+    /**
+     * wish爬虫
+     */
+    public static final String WISH_SPIDER_URL = SERVICE_URL + "pjson/wishSpider.action";
 ////////////////////////JSON RESULT END/////////////////////////////////
 }

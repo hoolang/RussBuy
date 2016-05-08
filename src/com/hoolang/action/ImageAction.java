@@ -21,7 +21,7 @@ public class ImageAction extends ActionSupport{
 		
 		ImageMarkLogoUtil.setImageMarkOptions(1, 10, 10, null, null);
 		ImageMarkLogoUtil.markImageByIcon(icon, source, mark);
-		JsonTool.defaultSuccess();
+		JsonTool.success();
 		return null;
 	}
 

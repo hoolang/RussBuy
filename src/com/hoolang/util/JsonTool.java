@@ -47,7 +47,14 @@ public class JsonTool {
 		JsonTool.fromObject(obj, params);
 	}
 	
-	public static void defaultSuccess() throws IOException{
+	public static void success() throws IOException{
+		HashMap map = new HashMap();
+		map.put("code", "0");
+		String[] params = {};
+		JsonTool.fromObject(map, params);
+	}
+	
+	public static void failed() throws IOException{
 		HashMap map = new HashMap();
 		map.put("code", "0");
 		String[] params = {};

@@ -26,15 +26,26 @@ import org.apache.http.message.BasicNameValuePair;
 import com.hoolang.entity.Products;
 
 public class WishMgr {
-	private static String ACCESS_TOKEN = "ec7c968622e24269b2c9badf62e376ee";
+//	private static String ACCESS_TOKEN = "ec7c968622e24269b2c9badf62e376ee";
+//	/**
+//	 * 添加产品URL
+//	 */
+//	private static String ADD = "https://sandbox.merchant.wish.com/api/v2/product/add";
+//	/**
+//	 * 添加产品变种
+//	 */
+//	private static String ADD_VARIANT = "https://sandbox.merchant.wish.com/api/v2/variant/add";
+	
+	private static String ACCESS_TOKEN = "25254298685544bfb5484c2e0cc90cc5";
 	/**
 	 * 添加产品URL
 	 */
-	private static String ADD = "https://sandbox.merchant.wish.com/api/v2/product/add";
+	private static String ADD = "https://china-merchant.wish.com/api/v2/product/add";
 	/**
 	 * 添加产品变种
 	 */
-	private static String ADD_VARIANT = "https://sandbox.merchant.wish.com/api/v2/variant/add";
+	//private static String ADD_VARIANT = "https://sandbox.merchant.wish.com/api/v2/variant/add";
+	private static String ADD_VARIANT = "https://china-merchant.wish.com/api/v2/variant/add";
 
 	private static class LazyHolder {
 		private static final WishMgr INSTANCE = new WishMgr();

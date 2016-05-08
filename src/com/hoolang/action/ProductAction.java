@@ -294,6 +294,45 @@ public class ProductAction extends ActionSupport {
 			}
 		}
 	}
+	
+	public String spiderWishJson() throws IOException{
+		if (urls == null || urls.length() == 0) {
+			System.out.println("urls == null");
+			JsonTool.failed();
+			return null;
+		} else {
+			String[] URLs = urls.split("\r\n");
+			if (URLs.length == 0) {
+				System.out.println("URLs.length == 0");
+				JsonTool.failed();
+				return null;
+			} else {
+				List list = new ArrayList();
+				for(int i=0; i< URLs.length; i++){
+					String regex="https://www.wish.com/c/(.*)";
+					Pattern p = Pattern.compile(regex);
+					Matcher m=p.matcher(URLs[i]);
+					  while(m.find()){
+						  list.add(m.group(1));
+						  System.out.println(m.group(1));
+					  }
+				}
+				String[] urls = new String[list.size()];
+				list.toArray(urls);
+				WishSpider.create().spider(productsService, urls);
+				JsonTool.success();
+				return null;
+			}
+		}
+	}
+	
+	public String spiderWishAdmin() throws UnsupportedOperationException, IOException{
+		String code = RequestJson.spiderWish(urls);
+		if (Integer.valueOf(code) != 0){
+			return SUCCESS;
+		}
+		return ERROR;
+	}
 
 	/**
 	 * 创建Mobuy产品

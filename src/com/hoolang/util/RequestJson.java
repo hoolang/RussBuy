@@ -76,7 +76,7 @@ public class RequestJson {
 			String error_code = resultJson.getString("error_code");
 			if (error_code != null) {
 				System.out.println("出错代码:" + error_code);
-				System.out.println("出错信息:" + resultJson.getString("error_msg"));
+				//System.out.println("出错信息:" + resultJson.getString("error_msg"));
 				return null;
 			}
 		} catch (Exception e) {
@@ -136,7 +136,7 @@ public class RequestJson {
 			String error_code = resultJson.getString("error_code");
 			if (error_code != null) {
 				System.out.println("出错代码:" + error_code);
-				System.out.println("出错信息:" + resultJson.getString("error_msg"));
+				//System.out.println("出错信息:" + resultJson.getString("error_msg"));
 				return null;
 			}
 		} catch (Exception e) {
@@ -146,5 +146,35 @@ public class RequestJson {
 				(JSONObject) resultJson.get("content"), Products.class);
 
 		return product;
+	}
+	
+	public static String spiderWish(String urls) throws UnsupportedOperationException, IOException {
+		// 使用Post方式，组装参数
+		HttpPost httpost = new HttpPost(Hoolang.WISH_SPIDER_URL);
+		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+		nvps.add(new BasicNameValuePair("urls", urls));
+		httpost.setEntity(new UrlEncodedFormEntity(nvps, Consts.UTF_8));
+
+		// 创建httpclient链接，并执行
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+		CloseableHttpResponse response = httpclient.execute(httpost);
+
+		// 对于返回实体进行解析
+		HttpEntity entity = response.getEntity();
+		InputStream returnStream = entity.getContent();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				returnStream, "UTF-8"));
+		StringBuilder result = new StringBuilder();
+		String str = null;
+		while ((str = reader.readLine()) != null) {
+			result.append(str).append("\n");
+		}
+
+		// 转化为json对象，注：Json解析的jar包可选其它
+		// JSONObject resultJson = new JSONObject(result.toString());
+
+		JSONObject resultJson = JSONObject.fromObject(result.toString());
+		String code = (String) resultJson.get("code");
+		return code;
 	}
 }
